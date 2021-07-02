@@ -11,7 +11,7 @@ namespace PlywoodViolin
     {
         [FunctionName("InternalServerErrorFunction")]
         public static IActionResult Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "InternalServerError")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, Route = "InternalServerError")] HttpRequest req,
             ILogger log)
         {
             return new InternalServerErrorResult();

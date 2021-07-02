@@ -10,7 +10,7 @@ namespace PlywoodViolin
     {
         [FunctionName("OkFunction")]
         public static IActionResult Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "OK")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, Route = "OK")] HttpRequest req,
             ILogger log)
         {
             return new OkResult();

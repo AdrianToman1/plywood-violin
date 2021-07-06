@@ -1,8 +1,9 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using PlywoodViolin.SteadyState;
 using Xunit;
 
-namespace PlywoodViolin.UnitTests
+namespace PlywoodViolin.UnitTests.SteadyState
 {
     public class OkFunctionUnitTest
     {

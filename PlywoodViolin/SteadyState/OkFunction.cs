@@ -6,10 +6,10 @@ using Microsoft.Extensions.Logging;
 
 namespace PlywoodViolin.SteadyState
 {
-    public static class OkFunction
+    public class OkFunction
     {
         [FunctionName("OkFunction")]
-        public static IActionResult Run(
+        public IActionResult Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, Route = "OK")] HttpRequest req,
             ILogger log)
         {

@@ -10,8 +10,13 @@ namespace PlywoodViolin.UnitTests.SteadyState
         [Fact]
         public void RunReturnsInternalServerError()
         {
-            var actionResult = InternalServerErrorFunction.Run(null, null);
+            // Arrange
+            var internalServerErrorFunction = new InternalServerErrorFunction();
 
+            // Act
+            var actionResult = internalServerErrorFunction.Run(null, null);
+
+            // Assert
             Assert.NotNull(actionResult);
             Assert.IsAssignableFrom<StatusCodeResult>(actionResult);
             Assert.Equal((int)HttpStatusCode.InternalServerError, ((StatusCodeResult)actionResult).StatusCode);

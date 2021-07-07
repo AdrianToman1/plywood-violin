@@ -6,10 +6,10 @@ using Microsoft.Extensions.Logging;
 
 namespace PlywoodViolin.Monkey
 {
-    public static class MonkeyFunction
+    public class MonkeyFunction
     {
         [FunctionName("MonkeyFunction")]
-        public static IActionResult Run(
+        public IActionResult Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, Route = "Monkey")] HttpRequest req,
             ILogger log)
         {

@@ -7,10 +7,10 @@ using Microsoft.Extensions.Logging;
 
 namespace PlywoodViolin.SteadyState
 {
-    public static class InternalServerErrorFunction
+    public class InternalServerErrorFunction
     {
         [FunctionName("InternalServerErrorFunction")]
-        public static IActionResult Run(
+        public IActionResult Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, Route = "InternalServerError")] HttpRequest req,
             ILogger log)
         {

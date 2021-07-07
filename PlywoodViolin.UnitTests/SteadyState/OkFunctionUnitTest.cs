@@ -10,8 +10,13 @@ namespace PlywoodViolin.UnitTests.SteadyState
         [Fact]
         public void RunReturnsOk()
         {
-            var actionResult = OkFunction.Run(null, null);
+            // Arrange
+            var okFunction = new OkFunction();
 
+            // Act
+            var actionResult = okFunction.Run(null, null);
+
+            // Arrange
             Assert.NotNull(actionResult);
             Assert.IsAssignableFrom<StatusCodeResult>(actionResult);
             Assert.Equal((int)HttpStatusCode.OK, ((StatusCodeResult)actionResult).StatusCode);

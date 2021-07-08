@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace PlywoodViolin.SteadyState
 {
-    public class InternalServerErrorFunction
+    public class InternalServerErrorFunction : SteadyStateFunction
     {
         [FunctionName("InternalServerErrorFunction")]
         public IActionResult Run(

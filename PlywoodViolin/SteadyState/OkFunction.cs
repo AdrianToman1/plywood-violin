@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace PlywoodViolin.SteadyState
 {
-    public class OkFunction
+    public class OkFunction : SteadyStateFunction
     {
         [FunctionName("OkFunction")]
         public IActionResult Run(

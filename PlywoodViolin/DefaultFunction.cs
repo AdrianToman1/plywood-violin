@@ -14,7 +14,7 @@ namespace PlywoodViolin
             ILogger log)
         {
             string responseMessage =
-                "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.";
+                "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.1";
 
             return new OkObjectResult(responseMessage);
         }

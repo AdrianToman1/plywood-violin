@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace PlywoodViolin
+namespace PlywoodViolin.SteadyState
 {
     public abstract class SteadyStateFunction
     {

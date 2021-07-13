@@ -20,8 +20,9 @@ using PlywoodViolin;
 // The desired route precedence is:
 // 1) Literal routes, such as those for specific steady state HTTP response functions, the monkey function and default function.
 // 2) The generic steady function.
-// 3) The catch all route for the global not found function (will be explicitly different than the not found steady state HTTP response function).
+// 3) The catch all wildcard route for the global not found function (will be explicitly different than the not found steady state HTTP response function).
 [assembly: WebJobsStartup(typeof(StartUp))]
+
 namespace PlywoodViolin
 {
     public class StartUp : IWebJobsStartup
@@ -141,7 +142,7 @@ namespace PlywoodViolin
                         return 1;
                     }
                 }
-                 else
+                else
                 {
                     var comparison = string.Compare(xSegment.Text, ySegment.Text, StringComparison.OrdinalIgnoreCase);
                     if (comparison != 0)

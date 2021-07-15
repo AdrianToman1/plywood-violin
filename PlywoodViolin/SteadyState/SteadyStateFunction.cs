@@ -23,10 +23,12 @@ namespace PlywoodViolin.SteadyState
             {
                 return GetHtmlResult();
             }
+
             if (acceptHeader.Contains("application/json"))
             {
                 return GetJsonResult();
             }
+
             if (acceptHeader.Contains("text/xml"))
             {
                 return GetXmlResult();
@@ -42,7 +44,7 @@ namespace PlywoodViolin.SteadyState
 
         protected IActionResult GetJsonResult()
         {
-            return new ObjectResult(null) { StatusCode = StatusCode};
+            return new ObjectResult(null) { StatusCode = StatusCode };
         }
 
         protected IActionResult GetXmlResult()

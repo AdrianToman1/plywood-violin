@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,13 @@ namespace PlywoodViolin.SteadyState
 {
     public class GlobalNotFoundFunction : SteadyStateFunction
     {
+        private readonly FunctionWrapper _functionWrapper;
+
+        public GlobalNotFoundFunction(FunctionWrapper functionWrapper)
+        {
+            _functionWrapper = functionWrapper ?? throw new ArgumentNullException(nameof(functionWrapper));
+        }
+
         protected override int StatusCode => (int) HttpStatusCode.NotFound;
 
         /// <summary>
@@ -38,7 +46,7 @@ namespace PlywoodViolin.SteadyState
             ILogger log,
             string restOfPath)
         {
-            return GetActionResult(request);
+            return _functionWrapper.Execute(() => GetActionResult(request));
         }
 
         protected override string GetHtmlContent()

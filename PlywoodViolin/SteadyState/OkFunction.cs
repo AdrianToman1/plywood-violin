@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,15 +10,22 @@ namespace PlywoodViolin.SteadyState
 {
     public class OkFunction : SteadyStateFunction
     {
+        private readonly FunctionWrapper _functionWrapper;
+
+        public OkFunction(FunctionWrapper functionWrapper)
+        {
+            _functionWrapper = functionWrapper ?? throw new ArgumentNullException(nameof(functionWrapper));
+        }
+
         protected override int StatusCode => (int) HttpStatusCode.OK;
 
         [FunctionName("OkFunction")]
         public IActionResult Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, Route = "OK")]
-            HttpRequest req,
+            HttpRequest request,
             ILogger log)
         {
-            return new OkResult();
+            return _functionWrapper.Execute(() => GetActionResult(request));
         }
 
         protected override string GetHtmlContent()

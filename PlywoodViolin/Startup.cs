@@ -8,6 +8,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host.Config;
 using Microsoft.Azure.WebJobs.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using PlywoodViolin;
 
 
@@ -29,6 +30,8 @@ namespace PlywoodViolin
     {
         public void Configure(IWebJobsBuilder builder)
         {
+            builder.Services.AddTransient<FunctionWrapper>();
+
             builder.AddRoutePriority();
         }
     }

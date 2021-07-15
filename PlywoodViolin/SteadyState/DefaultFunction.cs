@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,13 @@ namespace PlywoodViolin.SteadyState
 {
     public class DefaultFunction : SteadyStateFunction
     {
+        private readonly FunctionWrapper _functionWrapper;
+
+        public DefaultFunction(FunctionWrapper functionWrapper)
+        {
+            _functionWrapper = functionWrapper ?? throw new ArgumentNullException(nameof(functionWrapper));
+        }
+
         protected override int StatusCode => (int) HttpStatusCode.OK;
 
         [FunctionName("DefaultFunction")]
@@ -17,7 +25,7 @@ namespace PlywoodViolin.SteadyState
             HttpRequest request,
             ILogger log)
         {
-            return GetActionResult(request);
+            return _functionWrapper.Execute(() => GetActionResult(request));
         }
 
         protected override string GetHtmlContent()

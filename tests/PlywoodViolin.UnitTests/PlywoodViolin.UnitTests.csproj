@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PlywoodViolin\PlywoodViolin.csproj" />
+    <ProjectReference Include="..\..\src\PlywoodViolin\PlywoodViolin.csproj" />
   </ItemGroup>
 
 </Project>

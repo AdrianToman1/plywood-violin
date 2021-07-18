@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace PlywoodViolin.SteadyState
 {
-    public abstract class SteadyStateFunction
+    public abstract class AbstractSteadyStateFunction
     {
         protected abstract int StatusCode { get; }
 
@@ -44,7 +44,7 @@ namespace PlywoodViolin.SteadyState
 
         protected IActionResult GetJsonResult()
         {
-            return new ObjectResult(null) { StatusCode = StatusCode };
+            return new ObjectResult(GetObjectContent()) { StatusCode = StatusCode };
         }
 
         protected IActionResult GetXmlResult()

@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace PlywoodViolin.SteadyState
 {
-    public class InternalServerErrorFunction : SteadyStateFunction
+    public class InternalServerErrorFunction : AbstractSteadyStateFunction
     {
         private readonly FunctionWrapper _functionWrapper;
 

@@ -20,8 +20,17 @@ namespace PlywoodViolin.SteadyState
         protected override int StatusCode => (int) HttpStatusCode.OK;
 
         [FunctionName("OkFunction")]
-        public IActionResult Run(
+        public IActionResult RunStatusReasonPhrase(
             [HttpTrigger(AuthorizationLevel.Anonymous, Route = "OK")]
+            HttpRequest request,
+            ILogger log)
+        {
+            return _functionWrapper.Execute(() => GetActionResult(request));
+        }
+
+        [FunctionName("Ok200Function")]
+        public IActionResult RunStatusCode(
+            [HttpTrigger(AuthorizationLevel.Anonymous, Route = "200")]
             HttpRequest request,
             ILogger log)
         {

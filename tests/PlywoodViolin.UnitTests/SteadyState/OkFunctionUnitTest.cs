@@ -11,7 +11,7 @@ namespace PlywoodViolin.UnitTests.SteadyState
         public void RunReturnsOk()
         {
             // Arrange
-            var okFunction = new OkFunction();
+            var okFunction = new OkFunction(null);
 
             // Act
             var actionResult = okFunction.Run(null, null);

@@ -11,7 +11,7 @@ namespace PlywoodViolin.UnitTests.SteadyState
         public void RunReturnsInternalServerError()
         {
             // Arrange
-            var internalServerErrorFunction = new InternalServerErrorFunction();
+            var internalServerErrorFunction = new InternalServerErrorFunction(null);
 
             // Act
             var actionResult = internalServerErrorFunction.Run(null, null);

@@ -20,8 +20,17 @@ namespace PlywoodViolin.SteadyState
         protected override int StatusCode => (int) HttpStatusCode.InternalServerError;
 
         [FunctionName("InternalServerErrorFunction")]
-        public IActionResult Run(
+        public IActionResult RunStatusReasonPhrase(
             [HttpTrigger(AuthorizationLevel.Anonymous, Route = "InternalServerError")]
+            HttpRequest request,
+            ILogger log)
+        {
+            return _functionWrapper.Execute(() => GetActionResult(request));
+        }
+
+        [FunctionName("InternalServerError500Function")]
+        public IActionResult RunStatusCode(
+            [HttpTrigger(AuthorizationLevel.Anonymous, Route = "500")]
             HttpRequest request,
             ILogger log)
         {

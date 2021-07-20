@@ -53,7 +53,7 @@ namespace PlywoodViolin
             var fields = type.GetRuntimeFields();
             var field = fields.FirstOrDefault(f => f.Name == "_functionRoutes");
             var functionRoutes = field.GetValue(router);
-            var routeCollection = (RouteCollection) functionRoutes;
+            var routeCollection = (RouteCollection)functionRoutes;
             var routes = GetRoutes(routeCollection);
             return routes;
         }
@@ -70,7 +70,7 @@ namespace PlywoodViolin
                     continue;
                 }
 
-                routes.Add((Route) collection[i]);
+                routes.Add((Route)collection[i]);
             }
 
             return routes;
@@ -123,6 +123,17 @@ namespace PlywoodViolin
 
                 var xSegment = xTemplate.Segments[i].Parts[0];
                 var ySegment = yTemplate.Segments[i].Parts[0];
+
+                if (!xSegment.IsCatchAll && ySegment.IsCatchAll)
+                {
+                    return -1;
+                }
+
+                if (xSegment.IsCatchAll && !ySegment.IsCatchAll)
+                {
+                    return 1;
+                }
+
                 if (!xSegment.IsParameter && ySegment.IsParameter)
                 {
                     return -1;

@@ -51,7 +51,7 @@ namespace PlywoodViolin.SteadyState
 
         protected override string GetHtmlContent()
         {
-            return "<html><body>Hello <b>world</b></body></html>";
+            return "<html><body>This isn't what you're looking for</body></html>";
         }
 
         protected override object GetObjectContent()

@@ -1,25 +1,38 @@
 using System.Net;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using PlywoodViolin.SteadyState;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace PlywoodViolin.UnitTests.SteadyState
 {
     public class InternalServerErrorFunctionUnitTest
     {
+        private ILogger _logger;
+
+        public InternalServerErrorFunctionUnitTest(ITestOutputHelper output)
+        {
+            _logger = new XunitLogger(output);
+        }
+
         [Fact]
         public void RunReturnsInternalServerError()
         {
             // Arrange
-            var internalServerErrorFunction = new InternalServerErrorFunction(null);
+            var functionWrapper = new FunctionWrapper(_logger);
+            var internalServerErrorFunction = new InternalServerErrorFunction(functionWrapper);
+
+            var request = new DefaultHttpContext().Request;
 
             // Act
-            var actionResult = internalServerErrorFunction.Run(null, null);
+            var actionResult = internalServerErrorFunction.RunStatusCode(request, _logger);
 
             // Assert
             Assert.NotNull(actionResult);
-            Assert.IsAssignableFrom<StatusCodeResult>(actionResult);
-            Assert.Equal((int)HttpStatusCode.InternalServerError, ((StatusCodeResult)actionResult).StatusCode);
+            Assert.IsAssignableFrom<ContentResult>(actionResult);
+            Assert.Equal((int)HttpStatusCode.InternalServerError, ((ContentResult)actionResult).StatusCode);
         }
     }
 }

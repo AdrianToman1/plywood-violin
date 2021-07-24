@@ -9,14 +9,16 @@
       "type": "string",
       "defaultValue": "Plywood-Violin",
       "metadata": {
-        "description": "Name of the resource group for the resource. It is recommended to put resources under same resource group for better tracking."
+        "description":
+          "Name of the resource group for the resource. It is recommended to put resources under same resource group for better tracking."
       }
     },
     "resourceGroupLocation": {
       "type": "string",
       "defaultValue": "australiasoutheast",
       "metadata": {
-        "description": "Location of the resource group. Resource groups could have different location than resources, however by default we use API versions from latest hybrid profile which support all locations for resource types we support."
+        "description":
+          "Location of the resource group. Resource groups could have different location than resources, however by default we use API versions from latest hybrid profile which support all locations for resource types we support."
       }
     },
     "resourceName": {
@@ -30,7 +32,8 @@
       "type": "string",
       "defaultValue": "[parameters('resourceGroupLocation')]",
       "metadata": {
-        "description": "Location of the resource. By default use resource group's location, unless the resource provider is not supported there."
+        "description":
+          "Location of the resource. By default use resource group's location, unless the resource provider is not supported there."
       }
     }
   },
@@ -43,7 +46,8 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat(parameters('resourceName'), subscription().subscriptionId)))]",
+      "name":
+        "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat(parameters('resourceName'), subscription().subscriptionId)))]",
       "resourceGroup": "[parameters('resourceGroupName')]",
       "apiVersion": "2019-10-01",
       "dependsOn": [
@@ -86,11 +90,16 @@
             }
           },
           "variables": {
-            "storage_name": "[toLower(concat('storage', uniqueString(concat(parameters('resourceName'), subscription().subscriptionId))))]",
-            "appServicePlan_name": "[concat('Plan', uniqueString(concat(parameters('resourceName'), subscription().subscriptionId)))]",
-            "storage_ResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('resourceGroupName'), '/providers/Microsoft.Storage/storageAccounts/', variables('storage_name'))]",
-            "appServicePlan_ResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('resourceGroupName'), '/providers/Microsoft.Web/serverFarms/', variables('appServicePlan_name'))]",
-            "function_ResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('resourceGroupName'), '/providers/Microsoft.Web/sites/', parameters('resourceName'))]"
+            "storage_name":
+              "[toLower(concat('storage', uniqueString(concat(parameters('resourceName'), subscription().subscriptionId))))]",
+            "appServicePlan_name":
+              "[concat('Plan', uniqueString(concat(parameters('resourceName'), subscription().subscriptionId)))]",
+            "storage_ResourceId":
+              "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('resourceGroupName'), '/providers/Microsoft.Storage/storageAccounts/', variables('storage_name'))]",
+            "appServicePlan_ResourceId":
+              "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('resourceGroupName'), '/providers/Microsoft.Web/serverFarms/', variables('appServicePlan_name'))]",
+            "function_ResourceId":
+              "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('resourceGroupName'), '/providers/Microsoft.Web/sites/', parameters('resourceName'))]"
           },
           "resources": [
             {
@@ -128,8 +137,10 @@
                     "[variables('function_ResourceId')]"
                   ],
                   "properties": {
-                    "AzureWebJobsDashboard": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storage_name'), ';AccountKey=', listKeys(variables('storage_ResourceId'), '2017-10-01').keys[0].value, ';EndpointSuffix=', 'core.windows.net')]",
-                    "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storage_name'), ';AccountKey=', listKeys(variables('storage_ResourceId'), '2017-10-01').keys[0].value, ';EndpointSuffix=', 'core.windows.net')]",
+                    "AzureWebJobsDashboard":
+                      "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storage_name'), ';AccountKey=', listKeys(variables('storage_ResourceId'), '2017-10-01').keys[0].value, ';EndpointSuffix=', 'core.windows.net')]",
+                    "AzureWebJobsStorage":
+                      "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storage_name'), ';AccountKey=', listKeys(variables('storage_ResourceId'), '2017-10-01').keys[0].value, ';EndpointSuffix=', 'core.windows.net')]",
                     "FUNCTIONS_EXTENSION_VERSION": "~3",
                     "FUNCTIONS_WORKER_RUNTIME": "dotnet"
                   }
@@ -142,7 +153,8 @@
               "type": "Microsoft.Storage/storageAccounts",
               "apiVersion": "2017-10-01",
               "tags": {
-                "[concat('hidden-related:', concat('/providers/Microsoft.Web/sites/', parameters('resourceName')))]": "empty"
+                "[concat('hidden-related:', concat('/providers/Microsoft.Web/sites/', parameters('resourceName')))]":
+                  "empty"
               },
               "properties": {
                 "supportsHttpsTrafficOnly": true

@@ -10,7 +10,7 @@ namespace PlywoodViolin.UnitTests.SteadyState
 {
     public class InternalServerErrorFunctionUnitTest
     {
-        private ILogger _logger;
+        private readonly ILogger _logger;
 
         public InternalServerErrorFunctionUnitTest(ITestOutputHelper output)
         {

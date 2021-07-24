@@ -18,7 +18,8 @@ namespace PlywoodViolin.UnitTests.Monkey
         /// <remarks>
         ///     This is pretty lame. Is the value always actually in the range???
         ///     Alternative is to grab meaningful sample of random values and check they are all within the range.
-        ///     Or maybe it can't be unit tested at all. Random is antithetical to unit testing, and I have gone to some trouble to isolate the code.
+        ///     Or maybe it can't be unit tested at all. Random is antithetical to unit testing, and I have gone to some trouble to
+        ///     isolate the code.
         /// </remarks>
         [Fact]
         public void RunReturnsInternalServerError()
@@ -28,7 +29,7 @@ namespace PlywoodViolin.UnitTests.Monkey
 
             // Act
             var actual = random.GetRandomValue();
-            
+
             // Assert
             Assert.InRange(actual, 0m, 1m);
         }

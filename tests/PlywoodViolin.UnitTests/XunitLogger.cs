@@ -6,13 +6,19 @@ namespace PlywoodViolin.UnitTests
 {
     public class XunitLogger : ILogger, IDisposable
     {
-        private ITestOutputHelper _output;
+        private readonly ITestOutputHelper _output;
 
         public XunitLogger(ITestOutputHelper output)
         {
             _output = output;
         }
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+
+        public void Dispose()
+        {
+        }
+
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception,
+            Func<TState, Exception, string> formatter)
         {
             _output.WriteLine(state.ToString());
         }
@@ -25,10 +31,6 @@ namespace PlywoodViolin.UnitTests
         public IDisposable BeginScope<TState>(TState state)
         {
             return this;
-        }
-
-        public void Dispose()
-        {
         }
     }
 }

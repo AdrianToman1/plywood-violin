@@ -17,27 +17,23 @@ namespace PlywoodViolin.SteadyState
             _functionWrapper = functionWrapper ?? throw new ArgumentNullException(nameof(functionWrapper));
         }
 
-        protected override int StatusCode => (int) HttpStatusCode.NotFound;
+        protected override int StatusCode => (int)HttpStatusCode.NotFound;
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="request"></param>
         /// <param name="log"></param>
         /// <param name="restOfPath"></param>
         /// <returns></returns>
         /// <remarks>
-        /// Wildcard route from: https://briandunnington.github.io/azure_functions_wildcard_routing
-        ///
-        /// This overrides the existing not found response provided by the framework.
-        ///
-        /// I was unable to determine how to provide a global error handler, like ASP.NET, so I resorted
-        /// to having a wildcard catch all route.
-        ///
-        /// I desire this response to be explicitly different from and steady state not found response.
-        /// Where as receiving a not found HTTP status code from a  steady state not found function would
-        /// be the expected, this represents a genuine error. I think it's important to differentiate
-        /// between the two.
+        ///     Wildcard route from: https://briandunnington.github.io/azure_functions_wildcard_routing
+        ///     This overrides the existing not found response provided by the framework.
+        ///     I was unable to determine how to provide a global error handler, like ASP.NET, so I resorted
+        ///     to having a wildcard catch all route.
+        ///     I desire this response to be explicitly different from and steady state not found response.
+        ///     Where as receiving a not found HTTP status code from a  steady state not found function would
+        ///     be the expected, this represents a genuine error. I think it's important to differentiate
+        ///     between the two.
         /// </remarks>
         [FunctionName("GlobalNotFoundFunction")]
         public IActionResult Run(
@@ -56,7 +52,7 @@ namespace PlywoodViolin.SteadyState
 
         protected override object GetObjectContent()
         {
-            return new {foo = "stuff"};
+            return new { foo = "stuff" };
         }
     }
 }

@@ -17,7 +17,7 @@ namespace PlywoodViolin.SteadyState
             _functionWrapper = functionWrapper ?? throw new ArgumentNullException(nameof(functionWrapper));
         }
 
-        protected override int StatusCode => (int) HttpStatusCode.OK;
+        protected override int StatusCode => (int)HttpStatusCode.OK;
 
         [FunctionName("DefaultFunction")]
         public IActionResult Run(
@@ -35,7 +35,7 @@ namespace PlywoodViolin.SteadyState
 
         protected override object GetObjectContent()
         {
-            return new {foo = "bar"};
+            return new { foo = "bar" };
         }
     }
 }

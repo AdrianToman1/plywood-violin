@@ -17,7 +17,7 @@ namespace PlywoodViolin.SteadyState
             _functionWrapper = functionWrapper ?? throw new ArgumentNullException(nameof(functionWrapper));
         }
 
-        protected override int StatusCode => (int) HttpStatusCode.InternalServerError;
+        protected override int StatusCode => (int)HttpStatusCode.InternalServerError;
 
         [FunctionName("InternalServerErrorFunction")]
         public IActionResult RunStatusReasonPhrase(
@@ -44,7 +44,7 @@ namespace PlywoodViolin.SteadyState
 
         protected override object GetObjectContent()
         {
-            return new {foo = "bar"};
+            return new { foo = "bar" };
         }
     }
 }

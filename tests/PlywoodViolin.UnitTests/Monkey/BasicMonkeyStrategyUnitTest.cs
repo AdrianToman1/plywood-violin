@@ -3,6 +3,7 @@ using System.Web.Http;
 using Microsoft.AspNetCore.Mvc;
 using PlywoodViolin.Monkey;
 using Xunit;
+using Random = PlywoodViolin.Monkey.Random;
 
 namespace PlywoodViolin.UnitTests.Monkey
 {
@@ -22,8 +23,8 @@ namespace PlywoodViolin.UnitTests.Monkey
         public void InstantiateObject_OK2()
         {
             // Arrange
-            var random = new PlywoodViolin.Monkey.Random();
-            
+            var random = new Random();
+
             // Act
             var basicMonkeyStrategy = new BasicMonkeyStrategy(random);
 

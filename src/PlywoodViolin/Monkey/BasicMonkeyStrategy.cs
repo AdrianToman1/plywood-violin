@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Web.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace PlywoodViolin.Monkey
 {
     public class BasicMonkeyStrategy : IMonkeyStrategy
     {
         public BasicMonkeyStrategy()
-        : this(new Random())
+            : this(new Random())
         {
         }
 
@@ -16,7 +16,7 @@ namespace PlywoodViolin.Monkey
             Random = random ?? throw new ArgumentNullException(nameof(random));
         }
 
-        public IRandom Random { get; private set; }
+        public IRandom Random { get; }
 
         public IActionResult GetActionResult()
         {

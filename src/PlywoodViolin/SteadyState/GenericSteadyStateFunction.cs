@@ -9,10 +9,10 @@ using Microsoft.Extensions.Logging;
 namespace PlywoodViolin.SteadyState
 {
     /// <summary>
-    /// 
     /// </summary>
     /// <remarks>
-    /// A catch all function that provides a generic response for any valid HTTP Status Code that hasn't got a specific function.
+    ///     A catch all function that provides a generic response for any valid HTTP Status Code that hasn't got a specific
+    ///     function.
     /// </remarks>
     public class GenericSteadyStateFunction : AbstractSteadyStateFunction
     {
@@ -46,14 +46,12 @@ namespace PlywoodViolin.SteadyState
                 // global not found function result.
                 if (Enum.TryParse<HttpStatusCode>(httpStatus, true, out var matchingHttpStatusCode))
                 {
-                    SetStatusCode((int) matchingHttpStatusCode);
+                    SetStatusCode((int)matchingHttpStatusCode);
                     return GetActionResult(request);
                 }
-                else
-                {
-                    var globalNotFoundFunction = new GlobalNotFoundFunction(_functionWrapper);
-                    return globalNotFoundFunction.Run(request, log, httpStatus);
-                }
+
+                var globalNotFoundFunction = new GlobalNotFoundFunction(_functionWrapper);
+                return globalNotFoundFunction.Run(request, log, httpStatus);
             });
         }
 
@@ -64,7 +62,7 @@ namespace PlywoodViolin.SteadyState
 
         protected override object GetObjectContent()
         {
-            return new {foo = "bar"};
+            return new { foo = "bar" };
         }
     }
 }

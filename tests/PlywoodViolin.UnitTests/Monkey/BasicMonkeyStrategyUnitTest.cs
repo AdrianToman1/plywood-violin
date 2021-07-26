@@ -13,7 +13,8 @@ namespace PlywoodViolin.UnitTests.Monkey
         public void InstantiateObject_OK1()
         {
             // Arrange & Act
-            var basicMonkeyStrategy = new BasicMonkeyStrategy();
+            var random = new Random();
+            var basicMonkeyStrategy = new BasicMonkeyStrategy(random);
 
             // Assert
             Assert.NotNull(basicMonkeyStrategy);

@@ -10,6 +10,8 @@ using Microsoft.Azure.WebJobs.Host.Config;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using PlywoodViolin;
+using PlywoodViolin.Monkey;
+using Random = PlywoodViolin.Monkey.Random;
 
 
 // Code from https://briandunnington.github.io/azure_functions_route_priority
@@ -31,6 +33,7 @@ namespace PlywoodViolin
         public void Configure(IWebJobsBuilder builder)
         {
             builder.Services.AddTransient<FunctionWrapper>();
+            builder.Services.AddTransient<IRandom, Random>();
 
             builder.AddRoutePriority();
         }

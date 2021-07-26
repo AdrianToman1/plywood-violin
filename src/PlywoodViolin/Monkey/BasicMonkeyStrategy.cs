@@ -6,11 +6,6 @@ namespace PlywoodViolin.Monkey
 {
     public class BasicMonkeyStrategy : IMonkeyStrategy
     {
-        public BasicMonkeyStrategy()
-            : this(new Random())
-        {
-        }
-
         public BasicMonkeyStrategy(IRandom random)
         {
             Random = random ?? throw new ArgumentNullException(nameof(random));

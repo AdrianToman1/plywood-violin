@@ -50,8 +50,8 @@ namespace PlywoodViolin.SteadyState
                     return GetActionResult(request);
                 }
 
-                //var globalNotFoundFunction = new GlobalNotFoundFunction(_functionWrapper);
-                return null;//globalNotFoundFunction.Run(request, log, httpStatus);
+                var globalNotFoundFunction = new GlobalNotFoundFunction(_functionWrapper);
+                return globalNotFoundFunction.Run(request, log, httpStatus);
             });
         }
 

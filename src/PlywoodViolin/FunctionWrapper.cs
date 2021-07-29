@@ -23,7 +23,7 @@ namespace PlywoodViolin
     {
         private readonly ILogger _log;
 
-        public FunctionWrapper(ILogger log)
+        public FunctionWrapper(ILogger<FunctionWrapper> log)
         {
             _log = log;
         }

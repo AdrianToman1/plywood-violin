@@ -10,11 +10,11 @@ namespace PlywoodViolin.UnitTests.SteadyState
 {
     public class InternalServerErrorFunctionUnitTest
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<FunctionWrapper> _logger;
 
         public InternalServerErrorFunctionUnitTest(ITestOutputHelper output)
         {
-            _logger = new XunitLogger(output);
+            _logger = new XunitLogger<FunctionWrapper>(output);
         }
 
         [Fact]

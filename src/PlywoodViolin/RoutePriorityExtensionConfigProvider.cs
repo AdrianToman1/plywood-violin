@@ -36,7 +36,9 @@ namespace PlywoodViolin
                 orderedCollection.Add(route);
             }
 
+            // This also clears proxy routes.
             _router.ClearRoutes();
+            // And we can't restore proxy routes collection here as it isn't surfaced.
             _router.AddFunctionRoutes(orderedCollection, null);
         }
 

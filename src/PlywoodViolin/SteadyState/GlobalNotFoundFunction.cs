@@ -42,12 +42,22 @@ namespace PlywoodViolin.SteadyState
             ILogger log,
             string restOfPath)
         {
+            // The route re-ordering code throws away any proxy routes (see README for more details).
+            // Instead of using a proxy to route the root path to the Default function, the root path
+            // will be caught by this catch all route.
+            // In the case that the path is the root path then return the result of the Default Function.
+            if (string.IsNullOrWhiteSpace(restOfPath) || restOfPath == "/")
+            {
+                var defaultFunction = new DefaultFunction(_functionWrapper);
+                return defaultFunction.Run(request, log);
+            }
+
             return _functionWrapper.Execute(() => GetActionResult(request));
         }
 
         protected override string GetHtmlContent()
         {
-            return "<html><body>This isn't what you're looking for</body></html>";
+            return $"<html><body>This isn't what you're looking for</body></html>";
         }
 
         protected override object GetObjectContent()

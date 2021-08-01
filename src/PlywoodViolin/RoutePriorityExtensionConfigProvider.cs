@@ -36,10 +36,19 @@ namespace PlywoodViolin
                 orderedCollection.Add(route);
             }
 
-            // This also clears proxy routes.
+            // IWebJobsRouter.ClearRoutes also clears any proxy routes as well as function routes.
+            // Need to preserve proxy routes.
+
+            var proxyRoutes = _router.GetProxyRoutes();
+
+            var proxyRouteCollection = new RouteCollection();
+            foreach (var route in proxyRoutes)
+            {
+                proxyRouteCollection.Add(route);
+            }
+
             _router.ClearRoutes();
-            // And we can't restore proxy routes collection here as it isn't surfaced.
-            _router.AddFunctionRoutes(orderedCollection, null);
+            _router.AddFunctionRoutes(orderedCollection, proxyRouteCollection);
         }
 
         private static int RouteComparison(Route x, Route y)

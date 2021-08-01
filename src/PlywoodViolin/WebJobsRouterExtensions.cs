@@ -19,6 +19,17 @@ namespace PlywoodViolin
             return routes;
         }
 
+        public static List<Route> GetProxyRoutes(this IWebJobsRouter router)
+        {
+            var type = typeof(WebJobsRouter);
+            var fields = type.GetRuntimeFields();
+            var field = fields.FirstOrDefault(f => f.Name == "_proxyRoutes");
+            var functionRoutes = field.GetValue(router);
+            var routeCollection = (RouteCollection)functionRoutes;
+            var routes = GetRoutes(routeCollection);
+            return routes;
+        }
+
         private static List<Route> GetRoutes(RouteCollection collection)
         {
             var routes = new List<Route>();

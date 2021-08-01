@@ -1,0 +1,11 @@
+﻿{
+  "$schema": "http://json.schemastore.org/proxies",
+  "proxies": {
+    "Root URI to Default Trigger Function": {
+      "matchCondition": {
+        "route": "/"
+      },
+      "backendUri": "https://plywood-violin.azurewebsites.net/Default"
+    }
+  }
+}

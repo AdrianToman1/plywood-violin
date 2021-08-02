@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -19,7 +20,7 @@ namespace PlywoodViolin.Monkey
         }
 
         [FunctionName("MonkeyFunction")]
-        public IActionResult Run(
+        public Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, Route = "Monkey")]
             HttpRequest req,
             ILogger log)

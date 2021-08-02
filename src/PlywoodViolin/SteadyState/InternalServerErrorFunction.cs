@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -20,26 +21,28 @@ namespace PlywoodViolin.SteadyState
         protected override int StatusCode => (int)HttpStatusCode.InternalServerError;
 
         [FunctionName("InternalServerErrorFunction")]
-        public IActionResult RunStatusReasonPhrase(
+        public Task<IActionResult> RunStatusReasonPhrase(
             [HttpTrigger(AuthorizationLevel.Anonymous, Route = "InternalServerError")]
             HttpRequest request,
+            ExecutionContext context,
             ILogger log)
         {
-            return _functionWrapper.Execute(() => GetActionResult(request));
+            return _functionWrapper.Execute(() => GetActionResult(request, context));
         }
 
         [FunctionName("InternalServerError500Function")]
-        public IActionResult RunStatusCode(
+        public Task<IActionResult> RunStatusCode(
             [HttpTrigger(AuthorizationLevel.Anonymous, Route = "500")]
             HttpRequest request,
+            ExecutionContext context,
             ILogger log)
         {
-            return _functionWrapper.Execute(() => GetActionResult(request));
+            return _functionWrapper.Execute(() => GetActionResult(request, context));
         }
 
-        protected override string GetHtmlContent()
+        protected override Task<string> GetHtmlContent(ExecutionContext context)
         {
-            return "<html><body>Hello <b>world</b></body></html>";
+            return Task.FromResult("<html><body>Hello <b>world</b></body></html>");
         }
 
         protected override object GetObjectContent()

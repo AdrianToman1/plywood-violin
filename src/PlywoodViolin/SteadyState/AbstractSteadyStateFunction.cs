@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.WebJobs;
 using Newtonsoft.Json;
 
 namespace PlywoodViolin.SteadyState
@@ -10,7 +12,9 @@ namespace PlywoodViolin.SteadyState
     {
         protected abstract int StatusCode { get; }
 
-        protected IActionResult GetActionResult(HttpRequest request)
+        protected virtual string HtmlContentPath => "..\\SteadyState\\HTMLPage1.html";
+
+        protected Task<IActionResult> GetActionResult(HttpRequest request, ExecutionContext context)
         {
             if (request == null)
             {
@@ -21,25 +25,25 @@ namespace PlywoodViolin.SteadyState
 
             if (acceptHeader.Count == 0 || acceptHeader.Contains("*/*") || acceptHeader.Contains("text/html"))
             {
-                return GetHtmlResult();
+                return GetHtmlResult(context);
             }
 
             if (acceptHeader.Contains("application/json"))
             {
-                return GetJsonResult();
+                return Task.FromResult(GetJsonResult());
             }
 
             if (acceptHeader.Contains("text/xml"))
             {
-                return GetXmlResult();
+                return Task.FromResult(GetXmlResult());
             }
 
-            return GetHtmlResult();
+            return GetHtmlResult(context);
         }
 
-        protected IActionResult GetHtmlResult()
+        protected async Task<IActionResult> GetHtmlResult(ExecutionContext context)
         {
-            return new ContentResult { Content = GetHtmlContent(), ContentType = "text/html", StatusCode = StatusCode };
+            return new ContentResult { Content = await GetHtmlContent(context), ContentType = "text/html", StatusCode = StatusCode };
         }
 
         protected IActionResult GetJsonResult()
@@ -67,7 +71,10 @@ namespace PlywoodViolin.SteadyState
             return new ContentResult { Content = doc.OuterXml, ContentType = "text/xml", StatusCode = StatusCode };
         }
 
-        protected abstract string GetHtmlContent();
+        protected virtual Task<string> GetHtmlContent(ExecutionContext context)
+        {
+            return System.IO.File.ReadAllTextAsync(System.IO.Path.Combine(context.FunctionDirectory, HtmlContentPath));
+        }
 
         protected abstract object GetObjectContent();
     }

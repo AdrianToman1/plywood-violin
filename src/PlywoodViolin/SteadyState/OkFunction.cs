@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -20,26 +21,23 @@ namespace PlywoodViolin.SteadyState
         protected override int StatusCode => (int)HttpStatusCode.OK;
 
         [FunctionName("OkFunction")]
-        public IActionResult RunStatusReasonPhrase(
+        public Task<IActionResult> RunStatusReasonPhrase(
             [HttpTrigger(AuthorizationLevel.Anonymous, Route = "OK")]
             HttpRequest request,
+            ExecutionContext context,
             ILogger log)
         {
-            return _functionWrapper.Execute(() => GetActionResult(request));
+            return _functionWrapper.Execute(() => GetActionResult(request, context));
         }
 
         [FunctionName("Ok200Function")]
-        public IActionResult RunStatusCode(
+        public Task<IActionResult> RunStatusCode(
             [HttpTrigger(AuthorizationLevel.Anonymous, Route = "200")]
             HttpRequest request,
+            ExecutionContext context,
             ILogger log)
         {
-            return _functionWrapper.Execute(() => GetActionResult(request));
-        }
-
-        protected override string GetHtmlContent()
-        {
-            return "<html><body>Hello <b>world</b></body></html>";
+            return _functionWrapper.Execute(() => GetActionResult(request, context));
         }
 
         protected override object GetObjectContent()

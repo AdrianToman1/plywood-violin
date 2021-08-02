@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -33,9 +34,10 @@ namespace PlywoodViolin.SteadyState
         }
 
         [FunctionName("SteadyStateFunction")]
-        public IActionResult Run(
+        public Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, Route = "{httpStatus}")]
             HttpRequest request,
+            ExecutionContext context,
             ILogger log,
             string httpStatus)
         {
@@ -47,17 +49,17 @@ namespace PlywoodViolin.SteadyState
                 if (Enum.TryParse<HttpStatusCode>(httpStatus, true, out var matchingHttpStatusCode))
                 {
                     SetStatusCode((int)matchingHttpStatusCode);
-                    return GetActionResult(request);
+                    return GetActionResult(request, context);
                 }
 
                 var globalNotFoundFunction = new GlobalNotFoundFunction(_functionWrapper);
-                return globalNotFoundFunction.Run(request, log, httpStatus);
+                return globalNotFoundFunction.Run(request, context, log, httpStatus);
             });
         }
 
-        protected override string GetHtmlContent()
+        protected override Task<string> GetHtmlContent(ExecutionContext context)
         {
-            return "<html><body>Hello <b>world</b></body></html>";
+            return Task.FromResult("<html><body>Hello <b>world</b></body></html>");
         }
 
         protected override object GetObjectContent()

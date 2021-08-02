@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -28,7 +29,7 @@ namespace PlywoodViolin
             _log = log;
         }
 
-        public IActionResult Execute(Func<IActionResult> azureFunction)
+        public Task<IActionResult> Execute(Func<Task<IActionResult>> azureFunction)
         {
             try
             {
@@ -37,7 +38,7 @@ namespace PlywoodViolin
             catch (Exception e)
             {
                 _log.LogError(e, "Unhandled exception");
-                return new ObjectResult(e.Message) { StatusCode = StatusCodes.Status500InternalServerError };
+                return Task.FromResult<IActionResult>(new ObjectResult(e.Message) { StatusCode = StatusCodes.Status500InternalServerError });
             }
         }
     }

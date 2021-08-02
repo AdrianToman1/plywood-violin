@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -36,18 +37,19 @@ namespace PlywoodViolin.SteadyState
         ///     between the two.
         /// </remarks>
         [FunctionName("GlobalNotFoundFunction")]
-        public IActionResult Run(
+        public Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, Route = "{*restOfPath}")]
             HttpRequest request,
+            ExecutionContext context,
             ILogger log,
             string restOfPath)
         {
-            return _functionWrapper.Execute(() => GetActionResult(request));
+            return _functionWrapper.Execute(() => GetActionResult(request, context));
         }
 
-        protected override string GetHtmlContent()
+        protected override Task<string> GetHtmlContent(ExecutionContext context)
         {
-            return "<html><body>This isn't what you're looking for</body></html>";
+            return Task.FromResult("<html><body>This isn't what you're looking for</body></html>");
         }
 
         protected override object GetObjectContent()

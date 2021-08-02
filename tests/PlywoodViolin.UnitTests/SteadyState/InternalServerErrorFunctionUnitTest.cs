@@ -27,12 +27,12 @@ namespace PlywoodViolin.UnitTests.SteadyState
             var request = new DefaultHttpContext().Request;
 
             // Act
-            var actionResult = internalServerErrorFunction.RunStatusCode(request, _logger);
+            var actionResult = internalServerErrorFunction.RunStatusCode(request, null, _logger);
 
             // Assert
             Assert.NotNull(actionResult);
             Assert.IsAssignableFrom<ContentResult>(actionResult);
-            Assert.Equal((int)HttpStatusCode.InternalServerError, ((ContentResult)actionResult).StatusCode);
+            Assert.Equal((int)HttpStatusCode.InternalServerError, ((ContentResult)actionResult.Result).StatusCode);
         }
     }
 }

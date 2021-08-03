@@ -20,6 +20,8 @@ namespace PlywoodViolin.SteadyState
 
         protected override int StatusCode => (int)HttpStatusCode.InternalServerError;
 
+        protected override string HtmlTitle => "Internal Server Error";
+
         [FunctionName("InternalServerErrorFunction")]
         public Task<IActionResult> RunStatusReasonPhrase(
             [HttpTrigger(AuthorizationLevel.Anonymous, Route = "InternalServerError")]
@@ -38,11 +40,6 @@ namespace PlywoodViolin.SteadyState
             ILogger log)
         {
             return _functionWrapper.Execute(() => GetActionResult(request, context));
-        }
-
-        protected override Task<string> GetHtmlContent(ExecutionContext context)
-        {
-            return Task.FromResult("<html><body>Hello <b>world</b></body></html>");
         }
 
         protected override object GetObjectContent()

@@ -20,6 +20,8 @@ namespace PlywoodViolin.SteadyState
 
         protected override int StatusCode => (int)HttpStatusCode.OK;
 
+        protected override string HtmlTitle => "OK";
+
         [FunctionName("OkFunction")]
         public Task<IActionResult> RunStatusReasonPhrase(
             [HttpTrigger(AuthorizationLevel.Anonymous, Route = "OK")]

@@ -12,7 +12,11 @@ namespace PlywoodViolin.SteadyState
     {
         protected abstract int StatusCode { get; }
 
-        protected virtual string HtmlContentPath => "..\\SteadyState\\HTMLPage1.html";
+        protected string HtmlTemplate => "..\\Content\\Html\\_template.html";
+
+        protected virtual string HtmlTitle => "";
+
+        protected virtual string HtmlContentPath => "..\\Content\\Html\\_template.html";
 
         protected Task<IActionResult> GetActionResult(HttpRequest request, ExecutionContext context)
         {
@@ -71,9 +75,20 @@ namespace PlywoodViolin.SteadyState
             return new ContentResult { Content = doc.OuterXml, ContentType = "text/xml", StatusCode = StatusCode };
         }
 
-        protected virtual Task<string> GetHtmlContent(ExecutionContext context)
+        protected virtual async Task<string> GetHtmlContent(ExecutionContext context)
         {
-            return System.IO.File.ReadAllTextAsync(System.IO.Path.Combine(context.FunctionDirectory, HtmlContentPath));
+            var template = await System.IO.File.ReadAllTextAsync(System.IO.Path.Combine(context.FunctionDirectory, HtmlTemplate));
+
+            var title = HtmlTitle?.Trim() ?? string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                title = $" - {title}";
+            }
+
+            template = template.Replace("{{ title }}", title);
+
+            return template;
         }
 
         protected abstract object GetObjectContent();

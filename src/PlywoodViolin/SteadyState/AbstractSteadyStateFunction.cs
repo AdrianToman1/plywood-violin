@@ -81,11 +81,6 @@ namespace PlywoodViolin.SteadyState
 
             var title = HtmlTitle?.Trim() ?? string.Empty;
 
-            if (!string.IsNullOrWhiteSpace(title))
-            {
-                title = $" - {title}";
-            }
-
             template = template.Replace("{{ title }}", title);
 
             return template;

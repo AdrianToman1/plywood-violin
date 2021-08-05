@@ -48,7 +48,7 @@ namespace PlywoodViolin.UnitTests.Monkey
             var basicMonkeyStrategy = new BasicMonkeyStrategy(new TestRandom(0));
 
             // Act
-            var actionResult = basicMonkeyStrategy.GetActionResult();
+            var actionResult = basicMonkeyStrategy.GetActionResult(null);
 
             // Assert
             Assert.IsAssignableFrom<OkResult>(actionResult);
@@ -61,7 +61,7 @@ namespace PlywoodViolin.UnitTests.Monkey
             var basicMonkeyStrategy = new BasicMonkeyStrategy(new TestRandom(1));
 
             // Act
-            var actionResult = basicMonkeyStrategy.GetActionResult();
+            var actionResult = basicMonkeyStrategy.GetActionResult(null);
 
             // Assert
             Assert.IsAssignableFrom<InternalServerErrorResult>(actionResult);

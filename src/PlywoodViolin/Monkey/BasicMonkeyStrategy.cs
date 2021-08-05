@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace PlywoodViolin.Monkey
@@ -14,7 +15,7 @@ namespace PlywoodViolin.Monkey
 
         public IRandom Random { get; }
 
-        public Task<IActionResult> GetActionResult()
+        public Task<IActionResult> GetActionResult(HttpRequest request)
         {
             var randomValue = Random.GetRandomValue();
 

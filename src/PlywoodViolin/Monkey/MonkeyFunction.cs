@@ -13,7 +13,7 @@ namespace PlywoodViolin.Monkey
         private readonly FunctionWrapper _functionWrapper;
         private readonly IRandom _random;
 
-        protected MonkeyFunction(FunctionWrapper functionWrapper, IRandom random)
+        public MonkeyFunction(FunctionWrapper functionWrapper, IRandom random)
         {
             _functionWrapper = functionWrapper ?? throw new ArgumentNullException(nameof(functionWrapper));
             _random = random ?? throw new ArgumentNullException(nameof(random));
@@ -22,14 +22,29 @@ namespace PlywoodViolin.Monkey
         [FunctionName("MonkeyFunction")]
         public Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, Route = "Monkey")]
-            HttpRequest req,
+            HttpRequest request,
             ILogger log)
         {
             return _functionWrapper.Execute(() =>
             {
-                var monkeyStrategy = new BasicMonkeyStrategy(_random);
+                string name = request.Query["strategy"];
 
-                return monkeyStrategy.GetActionResult();
+                IMonkeyStrategy monkeyStrategy;
+
+                if (string.IsNullOrWhiteSpace(name) || name.Equals("basic", StringComparison.OrdinalIgnoreCase))
+                {
+                    monkeyStrategy = new JsonContentMonkeyStrategy(_random);
+                }
+                else if (name.Equals("json", StringComparison.OrdinalIgnoreCase))
+                {
+                    monkeyStrategy = new JsonContentMonkeyStrategy(_random);
+                }
+                else
+                {
+                    monkeyStrategy = new BasicMonkeyStrategy(_random);
+                }
+
+                return monkeyStrategy.GetActionResult(request);
             });
         }
     }

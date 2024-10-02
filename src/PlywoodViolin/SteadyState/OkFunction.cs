@@ -3,9 +3,8 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.Azure.Functions.Worker;
 
 namespace PlywoodViolin.SteadyState
 {
@@ -22,7 +21,7 @@ namespace PlywoodViolin.SteadyState
 
         protected override string HtmlTitle => "OK";
 
-        [FunctionName("OkFunction")]
+        [Function("OkFunction")]
         public Task<IActionResult> RunStatusReasonPhrase(
             [HttpTrigger(AuthorizationLevel.Anonymous, Route = "OK")]
             HttpRequest request,
@@ -32,7 +31,7 @@ namespace PlywoodViolin.SteadyState
             return _functionWrapper.Execute(() => GetActionResult(request, context));
         }
 
-        [FunctionName("Ok200Function")]
+        [Function("Ok200Function")]
         public Task<IActionResult> RunStatusCode(
             [HttpTrigger(AuthorizationLevel.Anonymous, Route = "200")]
             HttpRequest request,

@@ -2,9 +2,8 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.Azure.Functions.Worker;
 
 namespace PlywoodViolin.Monkey
 {
@@ -19,7 +18,7 @@ namespace PlywoodViolin.Monkey
             _random = random ?? throw new ArgumentNullException(nameof(random));
         }
 
-        [FunctionName("MonkeyFunction")]
+        [Function("MonkeyFunction")]
         public Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, Route = "Monkey")]
             HttpRequest request,

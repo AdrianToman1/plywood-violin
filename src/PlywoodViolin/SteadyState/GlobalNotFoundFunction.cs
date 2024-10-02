@@ -3,9 +3,8 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.Azure.Functions.Worker;
 
 namespace PlywoodViolin.SteadyState
 {
@@ -36,7 +35,7 @@ namespace PlywoodViolin.SteadyState
         ///     be the expected, this represents a genuine error. I think it's important to differentiate
         ///     between the two.
         /// </remarks>
-        [FunctionName("GlobalNotFoundFunction")]
+        [Function("GlobalNotFoundFunction")]
         public Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, Route = "{*restOfPath}")]
             HttpRequest request,

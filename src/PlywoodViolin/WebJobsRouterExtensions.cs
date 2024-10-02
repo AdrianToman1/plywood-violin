@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 
 namespace PlywoodViolin
 {

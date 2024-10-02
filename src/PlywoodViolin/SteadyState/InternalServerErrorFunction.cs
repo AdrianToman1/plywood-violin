@@ -8,14 +8,9 @@ using Microsoft.Extensions.Logging;
 
 namespace PlywoodViolin.SteadyState;
 
-public class InternalServerErrorFunction : AbstractSteadyStateFunction
+public class InternalServerErrorFunction(FunctionWrapper functionWrapper) : AbstractSteadyStateFunction
 {
-    private readonly FunctionWrapper _functionWrapper;
-
-    public InternalServerErrorFunction(FunctionWrapper functionWrapper)
-    {
-        _functionWrapper = functionWrapper ?? throw new ArgumentNullException(nameof(functionWrapper));
-    }
+    private readonly FunctionWrapper _functionWrapper = functionWrapper ?? throw new ArgumentNullException(nameof(functionWrapper));
 
     protected override int StatusCode => (int)HttpStatusCode.InternalServerError;
 
@@ -25,8 +20,7 @@ public class InternalServerErrorFunction : AbstractSteadyStateFunction
     public Task<IActionResult> RunStatusReasonPhrase(
         [HttpTrigger(AuthorizationLevel.Anonymous, Route = "InternalServerError")]
         HttpRequest request,
-        ExecutionContext context,
-        ILogger log)
+        ExecutionContext context)
     {
         return _functionWrapper.Execute(() => GetActionResult(request, context));
     }
@@ -35,8 +29,7 @@ public class InternalServerErrorFunction : AbstractSteadyStateFunction
     public Task<IActionResult> RunStatusCode(
         [HttpTrigger(AuthorizationLevel.Anonymous, Route = "500")]
         HttpRequest request,
-        ExecutionContext context,
-        ILogger log)
+        ExecutionContext context)
     {
         return _functionWrapper.Execute(() => GetActionResult(request, context));
     }

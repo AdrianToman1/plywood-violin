@@ -6,21 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace PlywoodViolin.Monkey;
 
-public class JsonContentMonkeyStrategy : IMonkeyStrategy
+public class JsonContentMonkeyStrategy(IRandom random) : IMonkeyStrategy
 {
-    public JsonContentMonkeyStrategy(IRandom random)
-    {
-        Random = random ?? throw new ArgumentNullException(nameof(random));
-    }
-
-    public IRandom Random { get; }
+    public IRandom Random { get; } = random ?? throw new ArgumentNullException(nameof(random));
 
     public Task<IActionResult> GetActionResult(HttpRequest request)
     {
-        if (request == null)
-        {
-            throw new ArgumentNullException(nameof(request));
-        }
+        ArgumentNullException.ThrowIfNull(request);
 
         var randomValue = Random.GetRandomValue();
 
@@ -35,7 +27,7 @@ public class JsonContentMonkeyStrategy : IMonkeyStrategy
             content = new { foo = "baz" };
         }
 
-        var acceptHeader = request.Headers["Accept"];
+        var acceptHeader = request.Headers.Accept;
 
         if (acceptHeader.Count == 0 || acceptHeader.Contains("*/*") || acceptHeader.Contains("application/json"))
         {
@@ -57,7 +49,7 @@ public class JsonContentMonkeyStrategy : IMonkeyStrategy
     }
 
 
-    protected IActionResult GetJsonResult(int statusCode, object content)
+    protected static IActionResult GetJsonResult(int statusCode, object content)
     {
         return new ObjectResult(content) { StatusCode = statusCode };
     }

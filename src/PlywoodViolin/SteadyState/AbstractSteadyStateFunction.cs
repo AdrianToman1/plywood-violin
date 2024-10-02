@@ -11,20 +11,17 @@ public abstract class AbstractSteadyStateFunction
 {
     protected abstract int StatusCode { get; }
 
-    protected string HtmlTemplate => "..\\Content\\Html\\_template.html";
+    //protected string HtmlTemplate => "..\\Content\\Html\\_template.html";
 
     protected virtual string HtmlTitle => "";
 
-    protected virtual string HtmlContentPath => "..\\Content\\Html\\_template.html";
+    //protected virtual string HtmlContentPath => "..\\Content\\Html\\_template.html";
 
     protected Task<IActionResult> GetActionResult(HttpRequest request, ExecutionContext context)
     {
-        if (request == null)
-        {
-            throw new ArgumentNullException(nameof(request));
-        }
+        ArgumentNullException.ThrowIfNull(request);
 
-        var acceptHeader = request.Headers["Accept"];
+        //var acceptHeader = request.Headers.Accept;
 
         //if (acceptHeader.Count == 0 || acceptHeader.Contains("*/*") || acceptHeader.Contains("text/html"))
         //{

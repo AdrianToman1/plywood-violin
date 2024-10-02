@@ -8,14 +8,9 @@ using Microsoft.Extensions.Logging;
 
 namespace PlywoodViolin.SteadyState;
 
-public class OkFunction : AbstractSteadyStateFunction
+public class OkFunction(FunctionWrapper functionWrapper) : AbstractSteadyStateFunction
 {
-    private readonly FunctionWrapper _functionWrapper;
-
-    public OkFunction(FunctionWrapper functionWrapper)
-    {
-        _functionWrapper = functionWrapper ?? throw new ArgumentNullException(nameof(functionWrapper));
-    }
+    private readonly FunctionWrapper _functionWrapper = functionWrapper ?? throw new ArgumentNullException(nameof(functionWrapper));
 
     protected override int StatusCode => (int)HttpStatusCode.OK;
 
@@ -25,8 +20,7 @@ public class OkFunction : AbstractSteadyStateFunction
     public Task<IActionResult> RunStatusReasonPhrase(
         [HttpTrigger(AuthorizationLevel.Anonymous, Route = "OK")]
         HttpRequest request,
-        ExecutionContext context,
-        ILogger log)
+        ExecutionContext context)
     {
         return _functionWrapper.Execute(() => GetActionResult(request, context));
     }
@@ -35,8 +29,7 @@ public class OkFunction : AbstractSteadyStateFunction
     public Task<IActionResult> RunStatusCode(
         [HttpTrigger(AuthorizationLevel.Anonymous, Route = "200")]
         HttpRequest request,
-        ExecutionContext context,
-        ILogger log)
+        ExecutionContext context)
     {
         return _functionWrapper.Execute(() => GetActionResult(request, context));
     }

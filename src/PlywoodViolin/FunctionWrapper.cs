@@ -20,14 +20,9 @@ namespace PlywoodViolin;
 ///     would
 ///     be the expected, this represents a genuine error. I think it's important to differentiate between the two.
 /// </remarks>
-public class FunctionWrapper
+public class FunctionWrapper(ILogger<FunctionWrapper> log)
 {
-    private readonly ILogger _log;
-
-    public FunctionWrapper(ILogger<FunctionWrapper> log)
-    {
-        _log = log;
-    }
+    private readonly ILogger _log = log;
 
     public Task<IActionResult> Execute(Func<Task<IActionResult>> azureFunction)
     {

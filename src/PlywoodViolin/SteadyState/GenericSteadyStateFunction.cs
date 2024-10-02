@@ -11,19 +11,14 @@ namespace PlywoodViolin.SteadyState;
 /// <summary>
 /// </summary>
 /// <remarks>
-///     A catch all function that provides a generic response for any valid HTTP Status Code that hasn't got a specific
+///     A catch-all function that provides a generic response for any valid HTTP Status Code that hasn't got a specific
 ///     function.
 /// </remarks>
-public class GenericSteadyStateFunction : AbstractSteadyStateFunction
+public class GenericSteadyStateFunction(FunctionWrapper functionWrapper) : AbstractSteadyStateFunction
 {
-    private readonly FunctionWrapper _functionWrapper;
+    private readonly FunctionWrapper _functionWrapper = functionWrapper ?? throw new ArgumentNullException(nameof(functionWrapper));
 
     private int _statusCode;
-
-    public GenericSteadyStateFunction(FunctionWrapper functionWrapper)
-    {
-        _functionWrapper = functionWrapper ?? throw new ArgumentNullException(nameof(functionWrapper));
-    }
 
     protected override int StatusCode => _statusCode;
 
@@ -37,7 +32,6 @@ public class GenericSteadyStateFunction : AbstractSteadyStateFunction
         [HttpTrigger(AuthorizationLevel.Anonymous, Route = "{httpStatus}")]
         HttpRequest request,
         ExecutionContext context,
-        ILogger log,
         string httpStatus)
     {
         return _functionWrapper.Execute(() =>
@@ -52,7 +46,7 @@ public class GenericSteadyStateFunction : AbstractSteadyStateFunction
             }
 
             var globalNotFoundFunction = new GlobalNotFoundFunction(_functionWrapper);
-            return globalNotFoundFunction.Run(request, context, log, httpStatus);
+            return globalNotFoundFunction.Run(request, context, httpStatus);
         });
     }
 

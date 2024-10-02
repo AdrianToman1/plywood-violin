@@ -18,10 +18,10 @@ public class BasicMonkeyStrategy : IMonkeyStrategy
     {
         var randomValue = Random.GetRandomValue();
 
-        if (randomValue > 0.5m)
-        {
-            return Task.FromResult<IActionResult>(new InternalServerErrorResult());
-        }
+        //if (randomValue > 0.5m)
+        //{
+        //    return Task.FromResult<IActionResult>(new InternalServerErrorResult());
+        //}
 
         return Task.FromResult<IActionResult>(new OkResult());
     }

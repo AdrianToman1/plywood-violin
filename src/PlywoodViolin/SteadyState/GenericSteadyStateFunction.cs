@@ -56,10 +56,10 @@ public class GenericSteadyStateFunction : AbstractSteadyStateFunction
         });
     }
 
-    protected override Task<string> GetHtmlContent(ExecutionContext context)
-    {
-        return Task.FromResult("<html><body>Hello <b>world</b></body></html>");
-    }
+    //protected override Task<string> GetHtmlContent(ExecutionContext context)
+    //{
+    //    return Task.FromResult("<html><body>Hello <b>world</b></body></html>");
+    //}
 
     protected override object GetObjectContent()
     {

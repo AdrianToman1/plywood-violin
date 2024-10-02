@@ -48,10 +48,10 @@ public class JsonContentMonkeyStrategy : IMonkeyStrategy
 //                return GetHtmlResult(context);
         }
 
-        if (acceptHeader.Contains("text/xml"))
-        {
-            return Task.FromResult(GetXmlResult(200, content));
-        }
+        //if (acceptHeader.Contains("text/xml"))
+        //{
+        //    return Task.FromResult(GetXmlResult(200, content));
+        //}
 
         return Task.FromResult<IActionResult>(new OkResult());
     }
@@ -62,21 +62,21 @@ public class JsonContentMonkeyStrategy : IMonkeyStrategy
         return new ObjectResult(content) { StatusCode = statusCode };
     }
 
-    protected IActionResult GetXmlResult(int statusCode, object content)
-    {
-        // Provides an outer tag when to serialized.
-        var wrapper = new
-        {
-            result = content
-        };
+    //protected IActionResult GetXmlResult(int statusCode, object content)
+    //{
+    //    // Provides an outer tag when to serialized.
+    //    var wrapper = new
+    //    {
+    //        result = content
+    //    };
 
-        // Want to serialize an anonymous object to XML.
-        // Apparently, it's not as easy as it sounds.
-        // Used a solution from the following SO answer:
-        // https://stackoverflow.com/a/58242299/651104
-        // If there is a better way I'm all ears. 
-        var doc = JsonConvert.DeserializeXmlNode(JsonConvert.SerializeObject(wrapper));
+    //    // Want to serialize an anonymous object to XML.
+    //    // Apparently, it's not as easy as it sounds.
+    //    // Used a solution from the following SO answer:
+    //    // https://stackoverflow.com/a/58242299/651104
+    //    // If there is a better way I'm all ears. 
+    //    var doc = JsonConvert.DeserializeXmlNode(JsonConvert.SerializeObject(wrapper));
 
-        return new ContentResult { Content = doc.OuterXml, ContentType = "text/xml", StatusCode = statusCode };
-    }
+    //    return new ContentResult { Content = doc.OuterXml, ContentType = "text/xml", StatusCode = statusCode };
+    //}
 }

@@ -4,114 +4,113 @@ using System.Linq;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Hosting;
 
-namespace PlywoodViolin
+namespace PlywoodViolin;
+
+public class RoutePriorityExtensionConfigProvider : IExtensionConfigProvider
 {
-    public class RoutePriorityExtensionConfigProvider : IExtensionConfigProvider
+    private readonly IApplicationLifetime _applicationLifetime;
+    private readonly IWebJobsRouter _router;
+
+    public RoutePriorityExtensionConfigProvider(IApplicationLifetime applicationLifetime, IWebJobsRouter router)
     {
-        private readonly IApplicationLifetime _applicationLifetime;
-        private readonly IWebJobsRouter _router;
+        _applicationLifetime = applicationLifetime ?? throw new ArgumentNullException(nameof(applicationLifetime));
+        _router = router ?? throw new ArgumentNullException(nameof(router));
+    }
 
-        public RoutePriorityExtensionConfigProvider(IApplicationLifetime applicationLifetime, IWebJobsRouter router)
+    /// <inheritdoc />
+    public void Initialize(ExtensionConfigContext context)
+    {
+        _applicationLifetime.ApplicationStarted.Register(ReorderRoutes);
+    }
+
+    public void ReorderRoutes()
+    {
+        var unorderedRoutes = _router.GetRoutes();
+        var routePrecedence = Comparer<Route>.Create(RouteComparison);
+        var orderedRoutes = unorderedRoutes.OrderBy(id => id, routePrecedence);
+        var orderedCollection = new RouteCollection();
+        foreach (var route in orderedRoutes)
         {
-            _applicationLifetime = applicationLifetime ?? throw new ArgumentNullException(nameof(applicationLifetime));
-            _router = router ?? throw new ArgumentNullException(nameof(router));
+            orderedCollection.Add(route);
         }
 
-        /// <inheritdoc />
-        public void Initialize(ExtensionConfigContext context)
+        // IWebJobsRouter.ClearRoutes also clears any proxy routes as well as function routes.
+        // Need to preserve proxy routes.
+
+        var proxyRoutes = _router.GetProxyRoutes();
+
+        var proxyRouteCollection = new RouteCollection();
+        foreach (var route in proxyRoutes)
         {
-            _applicationLifetime.ApplicationStarted.Register(ReorderRoutes);
+            proxyRouteCollection.Add(route);
         }
 
-        public void ReorderRoutes()
+        _router.ClearRoutes();
+        _router.AddFunctionRoutes(orderedCollection, proxyRouteCollection);
+    }
+
+    private static int RouteComparison(Route x, Route y)
+    {
+        var xTemplate = x.ParsedTemplate;
+        var yTemplate = y.ParsedTemplate;
+
+        for (var i = 0; i < xTemplate.Segments.Count; i++)
         {
-            var unorderedRoutes = _router.GetRoutes();
-            var routePrecedence = Comparer<Route>.Create(RouteComparison);
-            var orderedRoutes = unorderedRoutes.OrderBy(id => id, routePrecedence);
-            var orderedCollection = new RouteCollection();
-            foreach (var route in orderedRoutes)
+            if (yTemplate.Segments.Count <= i)
             {
-                orderedCollection.Add(route);
+                return -1;
             }
 
-            // IWebJobsRouter.ClearRoutes also clears any proxy routes as well as function routes.
-            // Need to preserve proxy routes.
+            var xSegment = xTemplate.Segments[i].Parts[0];
+            var ySegment = yTemplate.Segments[i].Parts[0];
 
-            var proxyRoutes = _router.GetProxyRoutes();
-
-            var proxyRouteCollection = new RouteCollection();
-            foreach (var route in proxyRoutes)
+            if (!xSegment.IsCatchAll && ySegment.IsCatchAll)
             {
-                proxyRouteCollection.Add(route);
+                return -1;
             }
 
-            _router.ClearRoutes();
-            _router.AddFunctionRoutes(orderedCollection, proxyRouteCollection);
-        }
-
-        private static int RouteComparison(Route x, Route y)
-        {
-            var xTemplate = x.ParsedTemplate;
-            var yTemplate = y.ParsedTemplate;
-
-            for (var i = 0; i < xTemplate.Segments.Count; i++)
-            {
-                if (yTemplate.Segments.Count <= i)
-                {
-                    return -1;
-                }
-
-                var xSegment = xTemplate.Segments[i].Parts[0];
-                var ySegment = yTemplate.Segments[i].Parts[0];
-
-                if (!xSegment.IsCatchAll && ySegment.IsCatchAll)
-                {
-                    return -1;
-                }
-
-                if (xSegment.IsCatchAll && !ySegment.IsCatchAll)
-                {
-                    return 1;
-                }
-
-                if (!xSegment.IsParameter && ySegment.IsParameter)
-                {
-                    return -1;
-                }
-
-                if (xSegment.IsParameter && !ySegment.IsParameter)
-                {
-                    return 1;
-                }
-
-                if (xSegment.IsParameter)
-                {
-                    if (xSegment.InlineConstraints.Count() > ySegment.InlineConstraints.Count())
-                    {
-                        return -1;
-                    }
-
-                    if (xSegment.InlineConstraints.Count() < ySegment.InlineConstraints.Count())
-                    {
-                        return 1;
-                    }
-                }
-                else
-                {
-                    var comparison = string.Compare(xSegment.Text, ySegment.Text, StringComparison.OrdinalIgnoreCase);
-                    if (comparison != 0)
-                    {
-                        return comparison;
-                    }
-                }
-            }
-
-            if (yTemplate.Segments.Count > xTemplate.Segments.Count)
+            if (xSegment.IsCatchAll && !ySegment.IsCatchAll)
             {
                 return 1;
             }
 
-            return 0;
+            if (!xSegment.IsParameter && ySegment.IsParameter)
+            {
+                return -1;
+            }
+
+            if (xSegment.IsParameter && !ySegment.IsParameter)
+            {
+                return 1;
+            }
+
+            if (xSegment.IsParameter)
+            {
+                if (xSegment.InlineConstraints.Count() > ySegment.InlineConstraints.Count())
+                {
+                    return -1;
+                }
+
+                if (xSegment.InlineConstraints.Count() < ySegment.InlineConstraints.Count())
+                {
+                    return 1;
+                }
+            }
+            else
+            {
+                var comparison = string.Compare(xSegment.Text, ySegment.Text, StringComparison.OrdinalIgnoreCase);
+                if (comparison != 0)
+                {
+                    return comparison;
+                }
+            }
         }
+
+        if (yTemplate.Segments.Count > xTemplate.Segments.Count)
+        {
+            return 1;
+        }
+
+        return 0;
     }
 }

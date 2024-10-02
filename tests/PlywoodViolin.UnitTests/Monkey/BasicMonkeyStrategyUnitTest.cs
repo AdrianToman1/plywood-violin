@@ -1,8 +1,3 @@
-using System;
-using System.Web.Http;
-using Microsoft.AspNetCore.Mvc;
-using PlywoodViolin.Monkey;
-using Xunit;
 using Random = PlywoodViolin.Monkey.Random;
 
 namespace PlywoodViolin.UnitTests.Monkey

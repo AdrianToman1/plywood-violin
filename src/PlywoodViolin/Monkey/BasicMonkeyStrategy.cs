@@ -1,30 +1,28 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Web.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace PlywoodViolin.Monkey
+namespace PlywoodViolin.Monkey;
+
+public class BasicMonkeyStrategy : IMonkeyStrategy
 {
-    public class BasicMonkeyStrategy : IMonkeyStrategy
+    public BasicMonkeyStrategy(IRandom random)
     {
-        public BasicMonkeyStrategy(IRandom random)
+        Random = random ?? throw new ArgumentNullException(nameof(random));
+    }
+
+    public IRandom Random { get; }
+
+    public Task<IActionResult> GetActionResult(HttpRequest request)
+    {
+        var randomValue = Random.GetRandomValue();
+
+        if (randomValue > 0.5m)
         {
-            Random = random ?? throw new ArgumentNullException(nameof(random));
+            return Task.FromResult<IActionResult>(new InternalServerErrorResult());
         }
 
-        public IRandom Random { get; }
-
-        public Task<IActionResult> GetActionResult(HttpRequest request)
-        {
-            var randomValue = Random.GetRandomValue();
-
-            if (randomValue > 0.5m)
-            {
-                return Task.FromResult<IActionResult>(new InternalServerErrorResult());
-            }
-
-            return Task.FromResult<IActionResult>(new OkResult());
-        }
+        return Task.FromResult<IActionResult>(new OkResult());
     }
 }

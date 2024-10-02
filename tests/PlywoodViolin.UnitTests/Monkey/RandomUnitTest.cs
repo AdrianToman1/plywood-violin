@@ -1,6 +1,3 @@
-using PlywoodViolin.Monkey;
-using Xunit;
-
 namespace PlywoodViolin.UnitTests.Monkey
 {
     public class RandomUnitTest

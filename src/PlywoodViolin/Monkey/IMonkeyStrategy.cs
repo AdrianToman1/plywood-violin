@@ -2,10 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace PlywoodViolin.Monkey
+namespace PlywoodViolin.Monkey;
+
+public interface IMonkeyStrategy
 {
-    public interface IMonkeyStrategy
-    {
-        Task<IActionResult> GetActionResult(HttpRequest request);
-    }
+    Task<IActionResult> GetActionResult(HttpRequest request);
 }

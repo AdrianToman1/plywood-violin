@@ -1,8 +1,4 @@
-﻿using System;
-using Microsoft.Extensions.Logging;
-using Xunit.Abstractions;
-
-namespace PlywoodViolin.UnitTests
+﻿namespace PlywoodViolin.UnitTests
 {
     public class XunitLogger : ILogger, IDisposable
     {
@@ -63,5 +59,4 @@ namespace PlywoodViolin.UnitTests
             return this;
         }
     }
-
 }

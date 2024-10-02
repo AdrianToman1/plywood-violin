@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using PlywoodViolin;
+﻿using PlywoodViolin;
 using PlywoodViolin.Monkey;
 using Random = PlywoodViolin.Monkey.Random;
 
@@ -16,25 +15,24 @@ using Random = PlywoodViolin.Monkey.Random;
 // 3) The catch all wildcard route for the global not found function (will be explicitly different than the not found steady state HTTP response function).
 [assembly: WebJobsStartup(typeof(StartUp))]
 
-namespace PlywoodViolin
+namespace PlywoodViolin;
+
+public class StartUp : IWebJobsStartup
 {
-    public class StartUp : IWebJobsStartup
+    public void Configure(IWebJobsBuilder builder)
     {
-        public void Configure(IWebJobsBuilder builder)
-        {
-            builder.Services.AddTransient<FunctionWrapper>();
-            builder.Services.AddTransient<IRandom, Random>();
+        builder.Services.AddTransient<FunctionWrapper>();
+        builder.Services.AddTransient<IRandom, Random>();
 
-            builder.AddRoutePriority();
-        }
+        builder.AddRoutePriority();
     }
+}
 
-    public static class WebJobsBuilderExtensions
+public static class WebJobsBuilderExtensions
+{
+    public static IWebJobsBuilder AddRoutePriority(this IWebJobsBuilder builder)
     {
-        public static IWebJobsBuilder AddRoutePriority(this IWebJobsBuilder builder)
-        {
-            builder.AddExtension<RoutePriorityExtensionConfigProvider>();
-            return builder;
-        }
+        builder.AddExtension<RoutePriorityExtensionConfigProvider>();
+        return builder;
     }
 }

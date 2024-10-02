@@ -1,7 +1,6 @@
-﻿namespace PlywoodViolin.Monkey
+﻿namespace PlywoodViolin.Monkey;
+
+public interface IRandom
 {
-    public interface IRandom
-    {
-        decimal GetRandomValue();
-    }
+    decimal GetRandomValue();
 }

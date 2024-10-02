@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace PlywoodViolin.Monkey
+namespace PlywoodViolin.Monkey;
+
+public class Random : IRandom
 {
-    public class Random : IRandom
+    public decimal GetRandomValue()
     {
-        public decimal GetRandomValue()
-        {
-            return (decimal)new System.Random(Guid.NewGuid().GetHashCode()).NextDouble();
-        }
+        return (decimal)new System.Random(Guid.NewGuid().GetHashCode()).NextDouble();
     }
 }

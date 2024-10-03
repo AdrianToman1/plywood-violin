@@ -11,12 +11,12 @@ public class BasicMonkeyStrategy(IRandom random) : IMonkeyStrategy
 
     public Task<IActionResult> GetActionResult(HttpRequest request)
     {
-        //var randomValue = Random.GetRandomValue();
+        var randomValue = Random.GetRandomValue();
 
-        //if (randomValue > 0.5m)
-        //{
-        //    return Task.FromResult<IActionResult>(new InternalServerErrorResult());
-        //}
+        if (randomValue > 0.5m)
+        {
+            return Task.FromResult<IActionResult>(new StatusCodeResult(StatusCodes.Status500InternalServerError));
+        }
 
         return Task.FromResult<IActionResult>(new OkResult());
     }

@@ -1,62 +1,57 @@
-﻿namespace PlywoodViolin.UnitTests
+﻿using System;
+using Microsoft.Extensions.Logging;
+using Xunit.Abstractions;
+
+namespace PlywoodViolin.UnitTests;
+
+public class XunitLogger(ITestOutputHelper output) : ILogger, IDisposable
 {
-    public class XunitLogger : ILogger, IDisposable
+    private readonly ITestOutputHelper _output = output;
+
+    public void Dispose()
     {
-        private readonly ITestOutputHelper _output;
-
-        public XunitLogger(ITestOutputHelper output)
-        {
-            _output = output;
-        }
-
-        public void Dispose()
-        {
-        }
-
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception,
-            Func<TState, Exception, string> formatter)
-        {
-            _output.WriteLine(state.ToString());
-        }
-
-        public bool IsEnabled(LogLevel logLevel)
-        {
-            return true;
-        }
-
-        public IDisposable BeginScope<TState>(TState state)
-        {
-            return this;
-        }
+        GC.SuppressFinalize(this);
     }
 
-    public class XunitLogger<T> : ILogger<T>, IDisposable
+    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception,
+        Func<TState, Exception, string> formatter)
     {
-        private readonly ITestOutputHelper _output;
+        _output.WriteLine(state.ToString());
+    }
 
-        public XunitLogger(ITestOutputHelper output)
-        {
-            _output = output;
-        }
+    public bool IsEnabled(LogLevel logLevel)
+    {
+        return true;
+    }
 
-        public void Dispose()
-        {
-        }
+    public IDisposable BeginScope<TState>(TState state)
+    {
+        return this;
+    }
+}
 
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception,
-            Func<TState, Exception, string> formatter)
-        {
-            _output.WriteLine(state.ToString());
-        }
+public class XunitLogger<T>(ITestOutputHelper output) : ILogger<T>, IDisposable
+{
+    private readonly ITestOutputHelper _output = output;
 
-        public bool IsEnabled(LogLevel logLevel)
-        {
-            return true;
-        }
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
+    }
 
-        public IDisposable BeginScope<TState>(TState state)
-        {
-            return this;
-        }
+    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception,
+        Func<TState, Exception, string> formatter)
+    {
+        _output.WriteLine(state.ToString());
+    }
+
+    public bool IsEnabled(LogLevel logLevel)
+    {
+        return true;
+    }
+
+    public IDisposable BeginScope<TState>(TState state)
+    {
+        return this;
     }
 }

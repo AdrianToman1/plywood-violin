@@ -1,10 +1,10 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Element.Azure.Functions.Worker.Extensions.RoutePriority;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Extensions.Logging;
 
 namespace PlywoodViolin.SteadyState;
 
@@ -15,10 +15,11 @@ public class DefaultFunction(FunctionWrapper functionWrapper) : AbstractSteadySt
     protected override int StatusCode => (int)HttpStatusCode.OK;
 
     [Function("DefaultFunction")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "<Pending>")]
     public Task<IActionResult> Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, Route = "Default")]
         HttpRequest request,
-        ExecutionContext context)
+        ExecutionContext context, [RoutePriority] object ignore)
     {
         return _functionWrapper.Execute(() => GetActionResult(request, context));
     }

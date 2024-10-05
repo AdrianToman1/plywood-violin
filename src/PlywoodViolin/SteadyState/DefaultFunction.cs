@@ -1,4 +1,3 @@
-using System;
 using System.Net;
 using System.Threading.Tasks;
 using Element.Azure.Functions.Worker.Extensions.RoutePriority;
@@ -8,10 +7,8 @@ using Microsoft.Azure.Functions.Worker;
 
 namespace PlywoodViolin.SteadyState;
 
-public class DefaultFunction(FunctionWrapper functionWrapper) : AbstractSteadyStateFunction
+public class DefaultFunction : AbstractSteadyStateFunction
 {
-    private readonly FunctionWrapper _functionWrapper = functionWrapper ?? throw new ArgumentNullException(nameof(functionWrapper));
-
     protected override int StatusCode => (int)HttpStatusCode.OK;
 
     [Function("DefaultFunction")]
@@ -21,7 +18,7 @@ public class DefaultFunction(FunctionWrapper functionWrapper) : AbstractSteadySt
         HttpRequest request,
         ExecutionContext context, [RoutePriority] object ignore)
     {
-        return _functionWrapper.Execute(() => GetActionResult(request, context));
+        return GetActionResult(request, context);
     }
 
     //protected override Task<string> GetHtmlContent(ExecutionContext context)

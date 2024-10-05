@@ -2,23 +2,18 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using PlywoodViolin.SteadyState;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace PlywoodViolin.UnitTests.SteadyState;
 
-public class OkFunctionUnitTest(ITestOutputHelper output)
+public class OkFunctionUnitTest
 {
-    private readonly ILogger<FunctionWrapper> _logger = new XunitLogger<FunctionWrapper>(output);
-
     [Fact]
     public async Task RunReturnsOk()
     {
         // Arrange
-        var functionWrapper = new FunctionWrapper(_logger);
-        var okFunction = new OkFunction(functionWrapper);
+        var okFunction = new OkFunction();
 
         var request = new DefaultHttpContext().Request;
 

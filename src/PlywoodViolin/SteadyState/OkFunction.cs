@@ -1,17 +1,13 @@
-using System;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Extensions.Logging;
 
 namespace PlywoodViolin.SteadyState;
 
-public class OkFunction(FunctionWrapper functionWrapper) : AbstractSteadyStateFunction
+public class OkFunction : AbstractSteadyStateFunction
 {
-    private readonly FunctionWrapper _functionWrapper = functionWrapper ?? throw new ArgumentNullException(nameof(functionWrapper));
-
     protected override int StatusCode => (int)HttpStatusCode.OK;
 
     protected override string HtmlTitle => "OK";
@@ -22,7 +18,7 @@ public class OkFunction(FunctionWrapper functionWrapper) : AbstractSteadyStateFu
         HttpRequest request,
         ExecutionContext context)
     {
-        return _functionWrapper.Execute(() => GetActionResult(request, context));
+        return GetActionResult(request, context);
     }
 
     [Function("Ok200Function")]
@@ -31,7 +27,7 @@ public class OkFunction(FunctionWrapper functionWrapper) : AbstractSteadyStateFu
         HttpRequest request,
         ExecutionContext context)
     {
-        return _functionWrapper.Execute(() => GetActionResult(request, context));
+        return GetActionResult(request, context);
     }
 
     protected override object GetObjectContent()

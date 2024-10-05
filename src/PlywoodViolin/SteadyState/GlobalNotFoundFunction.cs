@@ -1,17 +1,13 @@
-using System;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Extensions.Logging;
 
 namespace PlywoodViolin.SteadyState;
 
-public class GlobalNotFoundFunction(FunctionWrapper functionWrapper) : AbstractSteadyStateFunction
+public class GlobalNotFoundFunction : AbstractSteadyStateFunction
 {
-    private readonly FunctionWrapper _functionWrapper = functionWrapper ?? throw new ArgumentNullException(nameof(functionWrapper));
-
     protected override int StatusCode => (int)HttpStatusCode.NotFound;
 
     /// <summary>
@@ -37,7 +33,7 @@ public class GlobalNotFoundFunction(FunctionWrapper functionWrapper) : AbstractS
         ExecutionContext context,
         string restOfPath)
     {
-        return _functionWrapper.Execute(() => GetActionResult(request, context));
+        return GetActionResult(request, context);
     }
 
     //protected override Task<string> GetHtmlContent(ExecutionContext context)

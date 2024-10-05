@@ -15,7 +15,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4
-      name: Setup NuGet
+    - name: Setup NuGet
       uses: NuGet/setup-nuget@v2
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v4
@@ -27,7 +27,7 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION_INPROC }}
     - name: Restore
       run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
-      name: Restore Packages
+    - name: Restore Packages
       run: nuget restore PlywoodViolin.sln
     - name: Build
       run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore

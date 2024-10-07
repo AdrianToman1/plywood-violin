@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
+using PlywoodViolin.Unknown;
 
 namespace PlywoodViolin.SteadyState;
 
@@ -40,8 +41,8 @@ public class GenericSteadyStateFunction : AbstractSteadyStateFunction
             return GetActionResult(request, context);
         }
 
-        var globalNotFoundFunction = new GlobalNotFoundFunction();
-        return globalNotFoundFunction.Run(request, context, httpStatus);
+        var globalNotFoundFunction = new UnknownFunction();
+        return globalNotFoundFunction.Run(request, context);
     }
 
     //protected override Task<string> GetHtmlContent(ExecutionContext context)

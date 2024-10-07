@@ -2,17 +2,17 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Functions.Worker;
+using PlywoodViolin.SteadyState;
 
-namespace PlywoodViolin.SteadyState;
+namespace PlywoodViolin.Unknown;
 
-public class DefaultFunction : AbstractSteadyStateFunction
+/// <inheritdoc cref="IUnknownFunction" />
+public sealed class UnknownFunction : AbstractSteadyStateFunction, IUnknownFunction
 {
-    protected override int StatusCode => (int)HttpStatusCode.OK;
+    protected override int StatusCode => (int)HttpStatusCode.NotFound;
 
-    [Function("DefaultFunction")]
+    /// <inheritdoc />
     public Task<IActionResult> Run(
-        [HttpTrigger(AuthorizationLevel.Anonymous, Route = "Default")]
         HttpRequest request,
         ExecutionContext context)
     {
@@ -21,11 +21,11 @@ public class DefaultFunction : AbstractSteadyStateFunction
 
     //protected override Task<string> GetHtmlContent(ExecutionContext context)
     //{
-    //    return Task.FromResult("<html><body>Hello <b>world</b></body></html>");
+    //    return Task.FromResult("<html><body>This isn't what you're looking for</body></html>");
     //}
 
     protected override object GetObjectContent()
     {
-        return new { foo = "bar" };
+        return new { foo = "stuff" };
     }
 }

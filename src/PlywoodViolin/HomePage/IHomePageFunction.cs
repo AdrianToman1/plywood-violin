@@ -9,7 +9,8 @@ namespace PlywoodViolin.HomePage;
 ///     A function to return the Plywood Violin home page.
 /// </summary>
 /// <remarks>
-///     <see cref="HttpTriggerAttribute" /> will not route to the root path. Instead, this function be called from <see cref="WildCardRouter" />. Using an interface to inject into the WildCardRouter to invert the dependency.
+///     <see cref="HttpTriggerAttribute" /> will not route to the root path. Instead, this function be called from
+///     <see cref="WildCardRouter" />. Using an interface to inject into the WildCardRouter to invert the dependency.
 /// </remarks>
 public interface IHomePageFunction
 {

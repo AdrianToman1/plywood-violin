@@ -1,3 +1,4 @@
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PlywoodViolin.HomePage;
@@ -11,7 +12,9 @@ var host = new HostBuilder()
     {
         services.AddSingleton<IHomePageFunction, HomePageFunction>();
         services.AddSingleton<IUnknownFunction, UnknownFunction>();
-        services.AddSingleton<IRandom, Random>();
+        services.AddSingleton<IRandom, Random>(); 
+        services.AddApplicationInsightsTelemetryWorkerService(); 
+        services.ConfigureFunctionsApplicationInsights();
     })
     .Build();
 

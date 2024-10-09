@@ -42,7 +42,7 @@ public class ExceptionHandlerMiddlewareUnitTests
         var exception = new Exception("Test exception");
 
         // Act
-        await errorHandlerMiddleware.Invoke(mockFunctionContext.Object, context => throw exception);
+        await errorHandlerMiddleware.Invoke(mockFunctionContext.Object, _ => throw exception);
 
         // Assert
         mockLogger.Verify(
@@ -103,7 +103,7 @@ public class ExceptionHandlerMiddlewareUnitTests
         var errorHandlerMiddleware = new ExceptionHandlerMiddleware(mockLogger.Object);
 
         // Act
-        await errorHandlerMiddleware.Invoke(Mock.Of<FunctionContext>(), context => Task.CompletedTask);
+        await errorHandlerMiddleware.Invoke(Mock.Of<FunctionContext>(), _ => Task.CompletedTask);
 
         // Assert
         mockLogger.Verify(

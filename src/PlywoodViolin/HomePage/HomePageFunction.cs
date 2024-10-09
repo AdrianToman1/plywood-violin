@@ -12,12 +12,12 @@ public sealed class HomePageFunction : AbstractSteadyStateFunction, IHomePageFun
     protected override int StatusCode => (int)HttpStatusCode.OK;
 
     /// <inheritdoc />
-    public Task<IActionResult> Run(HttpRequest request, ExecutionContext context)
+    public Task<IActionResult> Run(HttpRequest request)
     {
-        return GetActionResult(request, context);
+        return GetActionResult(request);
     }
 
-    //protected override Task<string> GetHtmlContent(ExecutionContext context)
+    //protected override Task<string> GetHtmlContent()
     //{
     //    return Task.FromResult("<html><body>Hello <b>world</b></body></html>");
     //}

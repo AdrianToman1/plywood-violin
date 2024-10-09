@@ -13,13 +13,12 @@ public sealed class UnknownFunction : AbstractSteadyStateFunction, IUnknownFunct
 
     /// <inheritdoc />
     public Task<IActionResult> Run(
-        HttpRequest request,
-        ExecutionContext context)
+        HttpRequest request)
     {
-        return GetActionResult(request, context);
+        return GetActionResult(request);
     }
 
-    //protected override Task<string> GetHtmlContent(ExecutionContext context)
+    //protected override Task<string> GetHtmlContent()
     //{
     //    return Task.FromResult("<html><body>This isn't what you're looking for</body></html>");
     //}

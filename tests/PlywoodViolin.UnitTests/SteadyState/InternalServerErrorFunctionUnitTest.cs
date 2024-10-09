@@ -18,7 +18,7 @@ public class InternalServerErrorFunctionUnitTest
         var request = new DefaultHttpContext().Request;
 
         // Act
-        var result = await internalServerErrorFunction.RunStatusCode(request, null);
+        var result = await internalServerErrorFunction.RunStatusCode(request);
 
         // Assert
         Assert.NotNull(result);

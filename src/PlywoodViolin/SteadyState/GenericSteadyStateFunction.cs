@@ -29,7 +29,6 @@ public class GenericSteadyStateFunction : AbstractSteadyStateFunction
     public Task<IActionResult> Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, Route = "{httpStatus}")]
         HttpRequest request,
-        ExecutionContext context,
         string httpStatus)
     {
         // Convert the name or numeric value of a HttpStatusCode enumerated constant to an
@@ -38,14 +37,14 @@ public class GenericSteadyStateFunction : AbstractSteadyStateFunction
         if (Enum.TryParse<HttpStatusCode>(httpStatus, true, out var matchingHttpStatusCode))
         {
             SetStatusCode((int)matchingHttpStatusCode);
-            return GetActionResult(request, context);
+            return GetActionResult(request);
         }
 
         var globalNotFoundFunction = new UnknownFunction();
-        return globalNotFoundFunction.Run(request, context);
+        return globalNotFoundFunction.Run(request);
     }
 
-    //protected override Task<string> GetHtmlContent(ExecutionContext context)
+    //protected override Task<string> GetHtmlContent()
     //{
     //    return Task.FromResult("<html><body>Hello <b>world</b></body></html>");
     //}

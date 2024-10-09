@@ -17,7 +17,7 @@ public sealed class HomePageFunctionUnitTests
         var request = new DefaultHttpContext().Request;
 
         // Act
-        var result = await homePageFunction.Run(request, null);
+        var result = await homePageFunction.Run(request);
 
         // Assert
         Assert.NotNull(result);

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using PlywoodViolin.HomePage;
@@ -38,50 +37,50 @@ public sealed class WildCardRouterFunctionUnitTests
     public void Should_CallHomeFunction_When_PathIsNull()
     {
         // Arrange
-        _mockHomePageFunction.Setup(x => x.Run(It.IsAny<HttpRequest>(), It.IsAny<ExecutionContext>()));
+        _mockHomePageFunction.Setup(x => x.Run(It.IsAny<HttpRequest>()));
         var wildCardRouterFunction =
             new WildCardRouterFunction(_mockHomePageFunction.Object, _mockUnknownFunction.Object);
         var request = new DefaultHttpContext().Request;
 
         // Act
-        wildCardRouterFunction.Run(request, null, null);
+        wildCardRouterFunction.Run(request, null);
 
         // Assert
-        _mockHomePageFunction.Verify(x => x.Run(request, null), Times.Once);
-        _mockUnknownFunction.Verify(x => x.Run(It.IsAny<HttpRequest>(), It.IsAny<ExecutionContext>()), Times.Never);
+        _mockHomePageFunction.Verify(x => x.Run(request), Times.Once);
+        _mockUnknownFunction.Verify(x => x.Run(It.IsAny<HttpRequest>()), Times.Never);
     }
 
     [Fact]
     public void Should_CallHomeFunction_When_PathIsEmptyString()
     {
         // Arrange
-        _mockHomePageFunction.Setup(x => x.Run(It.IsAny<HttpRequest>(), It.IsAny<ExecutionContext>()));
+        _mockHomePageFunction.Setup(x => x.Run(It.IsAny<HttpRequest>()));
         var wildCardRouterFunction =
             new WildCardRouterFunction(_mockHomePageFunction.Object, _mockUnknownFunction.Object);
         var request = new DefaultHttpContext().Request;
 
         // Act
-        wildCardRouterFunction.Run(request, null, string.Empty);
+        wildCardRouterFunction.Run(request, string.Empty);
 
         // Assert
-        _mockHomePageFunction.Verify(x => x.Run(request, null), Times.Once);
-        _mockUnknownFunction.Verify(x => x.Run(It.IsAny<HttpRequest>(), It.IsAny<ExecutionContext>()), Times.Never);
+        _mockHomePageFunction.Verify(x => x.Run(request), Times.Once);
+        _mockUnknownFunction.Verify(x => x.Run(It.IsAny<HttpRequest>()), Times.Never);
     }
 
     [Fact]
     public void Should_CallUnknownFunction_When_PathIsNotNullOrEmptyString()
     {
         // Arrange
-        _mockUnknownFunction.Setup(x => x.Run(It.IsAny<HttpRequest>(), It.IsAny<ExecutionContext>()));
+        _mockUnknownFunction.Setup(x => x.Run(It.IsAny<HttpRequest>()));
         var wildCardRouterFunction =
             new WildCardRouterFunction(_mockHomePageFunction.Object, _mockUnknownFunction.Object);
         var request = new DefaultHttpContext().Request;
 
         // Act
-        wildCardRouterFunction.Run(request, null, "unknown\\path");
+        wildCardRouterFunction.Run(request, "unknown\\path");
 
         // Assert
-        _mockUnknownFunction.Verify(x => x.Run(request, null), Times.Once);
-        _mockHomePageFunction.Verify(x => x.Run(It.IsAny<HttpRequest>(), It.IsAny<ExecutionContext>()), Times.Never);
+        _mockUnknownFunction.Verify(x => x.Run(request), Times.Once);
+        _mockHomePageFunction.Verify(x => x.Run(It.IsAny<HttpRequest>()), Times.Never);
     }
 }

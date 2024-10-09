@@ -18,7 +18,7 @@ public class OkFunctionUnitTest
         var request = new DefaultHttpContext().Request;
 
         // Act
-        var result = await okFunction.RunStatusCode(request, null);
+        var result = await okFunction.RunStatusCode(request);
 
         // Assert
         Assert.NotNull(result);

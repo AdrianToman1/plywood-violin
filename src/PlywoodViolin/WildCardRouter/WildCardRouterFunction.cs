@@ -28,7 +28,6 @@ public sealed class WildCardRouterFunction(IHomePageFunction homePageFunction, I
     ///     Re-routes an HTTP request for an unrecognised HTTP path to the appropriate function to be handled.
     /// </summary>
     /// <param name="request">The HTTP request object and overall HttpContext.</param>
-    /// <param name="context"></param>
     /// <param name="path">The path of the HTTP request.</param>
     /// <returns>
     ///     A <see cref="Task" /> representing the asynchronous operation containing an <see cref="IActionResult" />
@@ -42,17 +41,16 @@ public sealed class WildCardRouterFunction(IHomePageFunction homePageFunction, I
     public Task<IActionResult> Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, Route = "{*path}")]
         HttpRequest request,
-        ExecutionContext context,
         string path)
     {
         return path switch
         {
             // Root - Call the HomePage function
-            null => _homePageFunction.Run(request, context),
-            "" => _homePageFunction.Run(request, context),
+            null => _homePageFunction.Run(request),
+            "" => _homePageFunction.Run(request),
 
             // Anything else - Call the Unknown function
-            _ => _unknownFunction.Run(request, context)
+            _ => _unknownFunction.Run(request)
         };
     }
 }

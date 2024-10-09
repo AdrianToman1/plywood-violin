@@ -15,19 +15,17 @@ public class InternalServerErrorFunction : AbstractSteadyStateFunction
     [Function("InternalServerErrorFunction")]
     public Task<IActionResult> RunStatusReasonPhrase(
         [HttpTrigger(AuthorizationLevel.Anonymous, Route = "InternalServerError")]
-        HttpRequest request,
-        ExecutionContext context)
+        HttpRequest request)
     {
-        return GetActionResult(request, context);
+        return GetActionResult(request);
     }
 
     [Function("InternalServerError500Function")]
     public Task<IActionResult> RunStatusCode(
         [HttpTrigger(AuthorizationLevel.Anonymous, Route = "500")]
-        HttpRequest request,
-        ExecutionContext context)
+        HttpRequest request)
     {
-        return GetActionResult(request, context);
+        return GetActionResult(request);
     }
 
     protected override object GetObjectContent()

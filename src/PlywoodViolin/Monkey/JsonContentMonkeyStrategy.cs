@@ -37,7 +37,7 @@ public class JsonContentMonkeyStrategy(IRandom random) : IMonkeyStrategy
         if (acceptHeader.Contains("text/html"))
         {
             return Task.FromResult(GetJsonResult(200, content));
-//                return GetHtmlResult(context);
+//                return GetHtmlResult();
         }
 
         //if (acceptHeader.Contains("text/xml"))

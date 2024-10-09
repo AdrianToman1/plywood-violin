@@ -17,7 +17,7 @@ public sealed class UnknownFunctionUnitTests
         var request = new DefaultHttpContext().Request;
 
         // Act
-        var result = await unknownFunctionFunction.Run(request, null);
+        var result = await unknownFunctionFunction.Run(request);
 
         // Assert
         Assert.NotNull(result);

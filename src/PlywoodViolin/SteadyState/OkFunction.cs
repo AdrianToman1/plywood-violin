@@ -15,19 +15,17 @@ public class OkFunction : AbstractSteadyStateFunction
     [Function("OkFunction")]
     public Task<IActionResult> RunStatusReasonPhrase(
         [HttpTrigger(AuthorizationLevel.Anonymous, Route = "OK")]
-        HttpRequest request,
-        ExecutionContext context)
+        HttpRequest request)
     {
-        return GetActionResult(request, context);
+        return GetActionResult(request);
     }
 
     [Function("Ok200Function")]
     public Task<IActionResult> RunStatusCode(
         [HttpTrigger(AuthorizationLevel.Anonymous, Route = "200")]
-        HttpRequest request,
-        ExecutionContext context)
+        HttpRequest request)
     {
-        return GetActionResult(request, context);
+        return GetActionResult(request);
     }
 
     protected override object GetObjectContent()

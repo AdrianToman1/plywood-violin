@@ -17,7 +17,7 @@ public abstract class AbstractSteadyStateFunction
 
     //protected virtual string HtmlContentPath => "..\\Content\\Html\\_template.html";
 
-    protected Task<IActionResult> GetActionResult(HttpRequest request, ExecutionContext context)
+    protected Task<IActionResult> GetActionResult(HttpRequest request)
     {
         ArgumentNullException.ThrowIfNull(request);
 
@@ -25,7 +25,7 @@ public abstract class AbstractSteadyStateFunction
 
         //if (acceptHeader.Count == 0 || acceptHeader.Contains("*/*") || acceptHeader.Contains("text/html"))
         //{
-        //    return GetHtmlResult(context);
+        //    return GetHtmlResult();
         //}
 
         //if (acceptHeader.Contains("application/json"))
@@ -38,13 +38,13 @@ public abstract class AbstractSteadyStateFunction
         //    return Task.FromResult(GetXmlResult());
         //}
 
-        //return GetHtmlResult(context);
+        //return GetHtmlResult();
     }
 
-    //protected async Task<IActionResult> GetHtmlResult(ExecutionContext context)
+    //protected async Task<IActionResult> GetHtmlResult()
     //{
     //    return new ContentResult
-    //        { Content = await GetHtmlContent(context), ContentType = "text/html", StatusCode = StatusCode };
+    //        { Content = await GetHtmlContent(), ContentType = "text/html", StatusCode = StatusCode };
     //}
 
     protected IActionResult GetJsonResult()
@@ -72,8 +72,9 @@ public abstract class AbstractSteadyStateFunction
     //    return new ContentResult { Content = doc.OuterXml, ContentType = "text/xml", StatusCode = StatusCode };
     //}
 
-    //protected virtual async Task<string> GetHtmlContent(ExecutionContext context)
+    //protected virtual async Task<string> GetHtmlContent()
     //{
+    //    // Need replacement for context.FunctionDirectory
     //    var template = await File.ReadAllTextAsync(Path.Combine(context.FunctionDirectory, HtmlTemplate));
 
     //    var title = HtmlTitle?.Trim() ?? string.Empty;

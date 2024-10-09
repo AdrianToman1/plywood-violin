@@ -18,10 +18,9 @@ public interface IHomePageFunction
     ///     Returns the Plywood Violin home page.
     /// </summary>
     /// <param name="request">The HTTP request object and overall HttpContext.</param>
-    /// <param name="context"></param>
     /// <returns>
     ///     A <see cref="Task" /> representing the asynchronous operation containing an <see cref="IActionResult" />
     ///     representing the Plywood Violin home page.
     /// </returns>
-    Task<IActionResult> Run(HttpRequest request, ExecutionContext context);
+    Task<IActionResult> Run(HttpRequest request);
 }
